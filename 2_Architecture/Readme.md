@@ -1,4 +1,5 @@
 # Architecture Of Student Record System:-
+
 ![](https://www.researchgate.net/profile/Andrzej-Materka/publication/266024036/figure/fig1/AS:392168628867081@1470511695721/SEC-system-architecture-with-an-example-of-teaching-related-flow-of-information.png)
 ## Flowgraph of Student Record System:-
 ![](https://d3i71xaburhd42.cloudfront.net/1082d8aed7156b33e98318063db1500e6e974a24/2-Figure1-1.png)
