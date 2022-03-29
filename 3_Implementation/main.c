@@ -1,549 +1,1039 @@
-#include<stdio.h>
-#include<conio.h>
-#include<stdlib.h>
-#include<time.h>
-#include<windows.h>
+ #include<stdio.h>
+ #include<conio.h>
+ #include<graphics.h>
+ #include<dos.h>
+ #include<string.h>
 
-typedef struct Node node;  // Create new name for struct Node---> node
-struct Node
-{
+  union REGS i,o;
+ void login_window();
+ void password_input();
+ void draw_screen();
+ void initialize_mouse();
+ void show_mouse();
+ void get_mouse();
+ void add_window();
+ void add_student_record();
+ void search_student_record();
+ void display_data();
+ void delete_student_record();
+ void modify_student_record();
+ void list_records();
+ void backup_database();
+ void progress();
+ void exit_system();
 
-    char first_name[50];
-    char last_name[50];
-    char student_id[30];
-    char gender[10];
-    char email[50];
-    char father_name[50];
-    char mother_name[50];
-    char date_of_birth[50];
-    node *next;
+   struct ADDRESS
+   {
+    char STREET[25];
+    char IM[25];
+    char CITY[15];
+    char COUNTRY[15];
+    char  PIN[10];
+    };
 
-} std,*head=NULL;
+   struct STUDENT
+   {
+    int ROLL_NO;
+    float MARKS;
+    char MOBILE_NO[12];
+    char F_NAME[20];
+    char L_NAME[20];
+    char COURSE_NAME[10];
+    char SEX[7];
+    char FEES[5];
+    int DAY;
+    int MONTH;
+    int YEAR;
 
+    struct ADDRESS A;
 
-void change_password();//to change password
-void display_student(); //to show student's details
-void add_new_student(); //To add student's info in list
-void remove_student(); //to delete student's info in list
-void modify_student_data(); //to change student's info in list
-void search_student(); //to search student's info in list
-void intro(); //Log in page
-void date_time(); //date and time
-void break_t(unsigned int t); //Loading...
-void print_title();//to show title
-void saved_data(); //to save data to linked list
+    };
 
+ void main()
+ {
+    int gd=DETECT,gm;
+    initgraph(&gd,&gm,"C:\\turboc3\\bgi");
 
-FILE *file,*f1;
-int f=0,m=0;  //f for Female && m for Male
-char rtrv[100],wrtn[100],match[100]; // password restore from file [rtrv]
-//password written to file [wrtn]
-//password match [match]
+    login_window();
+    password_input();
+    start :
 
+    cleardevice();
 
-void change_password()
-{
-    int k=0;
-    print_title();
-    f1=fopen("password.txt","w");
-    printf("\n\t\t\t->Enter New Password: ");
-    scanf("%s",wrtn);
+    draw_screen();
+    initialize_mouse();
 
-    if(strcmp(rtrv,wrtn)==0)
+    setcolor(3);
+    setfillstyle(1,8);
+    rectangle(390,55,200,88);
+    rectangle(395,50,195,94);
+    floodfill(393,52,3);
+    gotoxy(27,5);
+    printf("1. ADD STUDENT RECORD ");
+
+   /* FOLLOWING IS SEARCH RECORD */
+
+    gotoxy(27,8);
+    setcolor(3);
+    setfillstyle(1,8);
+    rectangle(390,135,200,105);
+    rectangle(395,140,195,100);
+    floodfill(394,139,3);
+    printf("2. SEARCH RECORD ");
+
+   /* FOLLOWING IS DELETE RECORD  */
+
+    gotoxy(27,11);
+    setcolor(3);
+    setfillstyle(1,8);
+    rectangle(390,180,200,152);
+    rectangle(395,185,195,146);
+    floodfill(394,184,3);
+    printf("3. DELETE RECORD ");
+
+   /* FOLLOWING COAD IS TO MODIFY RECORD */
+
+    gotoxy(27,14);
+    setcolor(3);
+    setfillstyle(1,8);
+    rectangle(390,229,200,199);
+    rectangle(395,234,195,194);
+    floodfill(394,233,3);
+    printf("4. MODIFY RECORD ");
+
+   /* FOLLOWING IS FOR LISTING RECORD  */
+
+    gotoxy(27,17);
+    setcolor(3);
+    setfillstyle(1,8);
+    rectangle(390,275,200,248);
+    rectangle(395,282,195,242);
+    floodfill(394,281,3);
+    printf("5. LIST  RECORDS ");
+
+   /* FOLLOWING COAD IS TO BEACKUP RECORDS */
+
+    gotoxy(27,20);
+    setcolor(3);
+    rectangle(390,325,200,295);
+    rectangle(395,330,195,290);
+    floodfill(394,329,3);
+    printf("6. BACKUP DATABASE ");
+
+   /* FOLLOWING IS FOR EXITING SYSTEM  */
+
+    gotoxy(27,23);
+    setcolor(3);
+    setfillstyle(1,8);
+    rectangle(390,372,200,345);
+    rectangle(395,377,195,340);
+    floodfill(394,376,3);
+    printf("7. EXIT SYSTEM ");
+
+   show_mouse();
+
+   while(!kbhit())
+  {
+
+  draw_screen();
+  show_mouse();
+  get_mouse();
+  if(o.x.bx==1&&o.x.cx<395&&o.x.cx>195&&o.x.dx<94&&o.x.dx>50)
+  {
+
+   add_student_record();
+   delay(500);
+   goto start ;
+
+  }
+
+   if(o.x.bx==1&&o.x.cx<395&&o.x.cx>195&&o.x.dx<140&&o.x.dx>100)
+   {
+ search_student_record();
+   goto start ;
+      }
+
+   if(o.x.bx==1&&o.x.cx<395&&o.x.cx>195&&o.x.dx<185&&o.x.dx>146)
+   {
+      delete_student_record();
+      goto start ;
+      }
+
+   if(o.x.bx==1&&o.x.cx<395&&o.x.cx>195&&o.x.dx<234&&o.x.dx>194)
+   {
+      modify_student_record();
+      goto start ;
+      }
+
+   if(o.x.bx==1&&o.x.cx<395&&o.x.cx>195&&o.x.dx<282&&o.x.dx>242)
+   {
+      list_records();
+      delay(1000);
+      goto start ;
+
+      }
+
+   if(o.x.bx==1&&o.x.cx<395&&o.x.cx>195&&o.x.dx<330&&o.x.dx>290)
     {
-        printf("\n\t\t\tPassword Matched with Old Password.\n");
-        k=1;
-    }
-    fprintf(f1,"%s",wrtn);
-    if(k==0)
-    {
-        do
-        {
-            printf("\n\t\t\t->Confirm Password:");
-            scanf("%s",match);
-            if(strcmp(wrtn,match)!=0)
-                printf("\n\t\t\tPassword not match. Plz try again\n\n");
-        }
-        while(strcmp(wrtn,match)!=0);
-    }
-    if(k==0)
-    {
-        printf("\n\t\t\tYour Password was changed successfully.\n\n");
-    }
-    printf("\n");
-    system("pause"); //Make the screen wait for a key press.
+      backup_database();
+      goto start ;
+      }
 
+   if(o.x.bx==1&&o.x.cx<395&&o.x.cx>195&&o.x.dx<377&&o.x.dx>340)
+      exit_system();
 
-}
-
-
-void saved_data()
-{
-    node *temp,*new_node;
-    f=0;
-    m=0;
-    head=NULL;
-    rewind(file); //move file position indicator to the beginning
-    while((fread(&std,sizeof(std),1,file))==1)
-    {
-        temp=(node*)malloc(sizeof(node));
-        strcpy(temp->first_name,std.first_name);
-        strcpy(temp->last_name,std.last_name);
-        strcpy(temp->student_id,std.student_id);
-        strcpy(temp->gender,std.gender);
-        if(strcmp(temp->gender,"F")==0||strcmp(temp->gender,"f")==0)
-            f++;
-        if(strcmp(temp->gender,"M")==0||strcmp(temp->gender,"m")==0)
-            m++;
-        strcpy(temp->father_name,std.father_name);
-        strcpy(temp->mother_name,std.mother_name);
-        strcpy(temp->date_of_birth,std.date_of_birth);
-
-        temp->next=NULL;
-        if(head==NULL)
-        {
-            head=temp;
-            new_node=temp;
-        }
-        else
-        {
-            new_node->next=temp;
-            new_node=temp;
-        }
-
-    }
-}
-
-
-void print_title()
-{
-    system("cls");
-    printf("\n\n\n");
-    printf("\t\t\t\t\t\tSTUDENT MANAGEMENT SYSTEM\n");
-    printf("\t\t\t\t\t*-------------------------------------*\n");
-    printf("\n\n");
-}
-void search_student()
-{
-    print_title();
-    saved_data();
-
-    char flag='y';
-    do
-    {
-        node *c=head,*temp=NULL;
-        char id[100];
-        printf("\n\t\t\tEnter Student ID:");
-        scanf("%s",id);
-        printf("\n");
-        while(c!=NULL)
-        {
-            if(strcmp(c->student_id,id)==0)
-            {
-                temp=c;
-                break;
-            }
-            c=c->next;
-        }
-        if(temp==NULL)
-            printf("\t\tRecord Not found!!!\n\n");
-        else
-        {
-
-            printf("\n\t\tStudent\tName: %s %s\n",temp->first_name,temp->last_name);
-            printf("\n\t\tStudent\tID: %s\n",temp->student_id);
-            printf("\n\t\tFather\tName: %s\n",temp->father_name);
-            printf("\n\t\tMother\tName: %s\n",temp->mother_name);
-            printf("\n\t\tGender\t: %s\n",temp->gender);
-            printf("\n\t\tDate of Birth\t: %s\n\n\n",temp->date_of_birth);
-
-
-
-        }
-        getchar(); //For clearing the input buffer
-        printf("Do you want to search more (Y/N) :");
-        scanf("%c",&flag);
-
-    }
-    while(flag=='y'||flag=='Y');
-
-    printf("\n");
-    system("pause"); //Make the screen wait for a key press.
-
-
-
-}
-
-
-void modify_student_data()
-{
-    print_title();
-    int check=0;
-    char id[100];
-    printf("\n\t\tEnter roll Number to Modify:");
-    scanf("%s",id);
-
-    rewind(file); //move file position indicator to the beginning
-    while((fread(&std,sizeof(std),1,file)==1))
-    {
-        if(strcmp(id,std.student_id)==0)
-        {
-            check=1;
-            break;
-        }
     }
 
-    if(check==0)
-        printf("\n\t\tRecord not found!!!\n\n");
-    else
+  getch();
+
+ closegraph();
+
+ }
+ void login_window()
+ {
+
+  /* rectangle for password input */
+
+    setcolor(3);
+    setfillstyle(1,WHITE);
+    rectangle(426,288,201,259);
+    rectangle(425,287,202,260);
+    floodfill(419,262,3);
+
+    /* RECTANGLE FOR LOGO */
+
+    setcolor(WHITE);
+    setfillstyle(10,4);
+    rectangle(402,142,224,222);
+    rectangle(403,141,223,223);
+    rectangle(404,140,222,224);
+    floodfill( 400,218,WHITE);
+
+    /* draws 1st body */
+
+    setcolor(WHITE);
+    setfillstyle(1,2);
+    ellipse(270, 190, 0, 360,10, 18);
+    ellipse(270, 190, 0, 360,11, 19);
+    floodfill(271,191,WHITE);
+
+    /* draws and fills 2nd body  */
+
+    setfillstyle(1,2);
+    ellipse(300, 195, 0, 360,10, 18);
+    ellipse(300, 195, 0, 360,9, 17);
+    floodfill(301,196,WHITE);
+
+    /* draws 3rd body */
+
+      setfillstyle(1,2);
+      ellipse(320, 199, 0, 360,8, 12);
+      ellipse(320, 199, 0, 360,7, 11);
+      floodfill(321,200,WHITE);
+
+    /* draw 4th body */
+
+    setfillstyle(1,2);
+    ellipse(340, 190, 0, 360,11, 25);
+    ellipse(340, 190, 0, 360,10, 24);
+    floodfill(341,191,WHITE);
+
+    /* draws head for 1st body */
+
+    setcolor(WHITE);
+    setfillstyle(1,2);
+    circle(270,152,9);
+    circle(270,152,8);
+    floodfill(271,153,WHITE);
+
+   /* draws head for 2nd body */
+
+    setcolor(WHITE);
+    setfillstyle(1,2);
+    circle(300,160,9);
+    circle(300,160,8);
+    floodfill(301,161,WHITE);
+
+   /* draws a head for 3rd body */
+
+     setcolor(WHITE);
+     setfillstyle(1,2);
+     circle(320,180,4);
+     circle(320,180,3);
+     floodfill(321,181,WHITE);
+
+   /* draws head for 4th body */
+
+    setcolor(WHITE);
+    setfillstyle(1,2);
+    circle(340,152,9);
+    circle(340,152,8);
+    floodfill(341,153,WHITE);
+
+    gotoxy(23,16);
+    printf("STUDENT DATABASE MANAGEMENT SYSTEM !");
+
+    /* following coad is to draw the circle Enter Button */
+
+    setcolor(WHITE);
+    setfillstyle(1,4);
+    circle(442,272,12);
+    circle(442,272,11);
+    circle(442,272,10);
+    floodfill(442,272,WHITE);
+    outtextxy(435,269,"->");
+    setcolor(WHITE);
+    circle(442,272,9);
+    setbkcolor(0);
+    gotoxy(15,15);
+    setcolor(WHITE);
+    settextstyle(1,0,1);
+    outtextxy(512,98,"x");
+
+    /* 510 for right side increaseo or decrease  /
+       120 top increase decrease
+       130 left increase decrease
+       300 bottom increase decrease
+       FOLLWING RECTANLGE JUST ABOVE INNERMOST RECTANGLE */
+
+    setcolor(WHITE);
+    rectangle(510,120,130,300);
+
+    /* FOLLOWING IS COAD FOR INNER MOST RECTANGLE */
+
+    setcolor(WHITE);
+    setfillstyle(1,3);
+    rectangle(531,100,112,321);
+    floodfill(530,111,WHITE);
+
+    /* FOLLOWING IS THE COAD FOR OUTERMOST WINDOW  */
+
+    setcolor(8);
+    setfillstyle(7,8);
+    rectangle(532,99,111,322);
+    rectangle(533,98,110,323);
+    rectangle(534,97,109,324);
+    rectangle(535,96,108,325);
+    rectangle(536,95,107,326);
+    rectangle(537,94,106,327);
+    rectangle(538,93,105,328);
+    rectangle(539,92,104,329);
+    rectangle(540,91,103,328);
+    floodfill(0,0,8);
+
+  }
+
+    void password_input()
+  {
+  int X=206,Y=262;
+  char password[10];
+  char pass[12]="harsh";
+  int i;
+  char ch;
+  for(i=0;i<12;i++)
+  {
+  ch=getch();
+  password[i]=ch;
+  if(ch==13)
+  {
+    password[i]='\0';
+    delay(50);
+    for(i=0;i<10;i++)
     {
-        fseek(file,-sizeof(std),SEEK_CUR);// file position indicator to the current
-        printf("\n\t\tEnter new data :\n\n");
+    sound(99*i);
+     /* following coad is to draw the circle Enter Button to give press effect  */
+    setcolor(WHITE);
+    setfillstyle(1,12);
+    circle(442,272,12);
+    circle(442,272,11);
+    circle(442,272,10);
+    floodfill(442,272,WHITE);
+delay(19);
+    setcolor(WHITE);
+    setfillstyle(1,4);
+    circle(442,272,12);
+    circle(442,272,11);
+    circle(442,272,10);
+    floodfill(442,272,WHITE);
+    nosound();
 
-        printf("\t\t\t\tEnter First name:");
-        scanf("%s",std.first_name);
+     }
+     delay(1000);
 
-        printf("\n\t\t\t\tEnter Last name:");
-        scanf("%s",std.last_name);
+  if(strcmp(pass,password)==0)
+  {
+    int gd=DETECT,gm;
+    initgraph(&gd,&gm,"C:\\turboc3\\bgi");
+    draw_screen();
 
-        printf("\n\t\t\t\tEnter Student ID:");
-        scanf("%s",std.student_id);
+    delay(1900); /* This dealy for pause thescreen for sometime.   */
+    setcolor(15);
+    setfillstyle(1,3);
+    rectangle(460,249,140,180);
+    rectangle(450,240,148,189);
+    floodfill(451,241,15);
 
-        printf("\n\t\t\t\tIf Female write F or If Male write M:");
-        scanf("%s",std.gender);
-
-        getchar();
-
-        printf("\n\t\t\t\tEnter Father name:");
-        gets(std.father_name);
-
-        printf("\n\t\t\t\tEnter Mother name:");
-        gets(std.mother_name);
-
-        printf("\n\t\t\t\tEnter Date of Birth:");
-        scanf("%s",std.date_of_birth);
-
-        fwrite(&std,sizeof(std),1,file);
-
-    }
-    if(check==1)
-    {
-        printf("\n\t\tRecord was changed successfully.\n");
-    }
-    printf("\n");
-    system("pause"); //Make the screen wait for a key press.
-
-
-}
-void remove_student()
-{
-    print_title();
-    char id[100];
-    FILE *tmp;
-    if((tmp=fopen("tmp.txt","wb+"))==NULL)
-    {
-        printf("\n\t\tCan not be opened");
-
-    }
-    printf("\n\t\tEnter Student ID that to be delete:");
-    scanf("%s",id);
-    int check=0;
-    rewind(file); //move file position indicator to the beginning
-
-    while((fread(&std,sizeof(std),1,file))==1)
-    {
-        if(strcmp(std.student_id,id)==0)
-        {
-            check=1;
-        }
-        else
-        {
-            fwrite(&std,sizeof(std),1,tmp);
-        }
-
-    }
-    fclose(file);
-    fclose(tmp);
-    remove("sectiong.txt"); //the file to delete
-    rename("tmp.txt","sectiong.txt"); //rename the file
-    if((file=fopen("sectiong.txt","rb+"))==NULL)
-    {
-        printf("Can not be opened.");
-
-    }
-    if(check==1)
-    {
-        printf("\n\t\tThe record has been deleted successfully.\n");
-    }
-    if(check==0)
-        printf("\n\t\t\tERROR!!Record Not Found..\n");
-
-    printf("\n");
-    system("pause"); //Make the screen wait for a key press.
-
-
-}
-void add_new_student()
-{
-
-    print_title();
-    char check='y';
-    int k=1;
-    while(check=='y'||check=='Y')
-    {
-        printf("\t\tStudent %d:\n",k);
-
-
-        printf("\t\t\t\tEnter First name:");
-        scanf("%s",std.first_name);
-
-
-
-        printf("\n\t\t\t\tEnter Last name:");
-        scanf("%s",std.last_name);
-
-        printf("\n\t\t\t\tEnter Student ID:");
-        scanf("%s",std.student_id);
-
-        printf("\n\t\t\t\tIf Female write F or If Male write M:");
-        scanf("%s",std.gender);
-
-        getchar();
-
-        printf("\n\t\t\t\tEnter Father name:");
-        gets(std.father_name);
-
-        printf("\n\t\t\t\tEnter Mother name:");
-        gets(std.mother_name);
-
-        printf("\n\t\t\t\tEnter Date of Birth:");
-        scanf("%s",std.date_of_birth);
-
-
-        fwrite(&std,sizeof(std),1,file);
-        printf("\n\t\t\t\tDo You Want to Add More Information (y/n)--> ");
-        getchar();
-        check=getchar();
-        printf("\n");
-        k++;
-    }
-
-}
-
-
-void display_student()
-{
-    print_title();
-    saved_data();
-    node *c=head;
-    if(head!=NULL)
-    {
-        printf("\t\t\t\t\tSTUDENT NAME:\t\tID:\n\n");
-
-    }
-    while(c!=NULL)
-    {
-        printf("\t\t\t\t\t%s %s\t\t%s\n",c->first_name,c->last_name,c->student_id);
-        c=c->next;
-    }
-
-    printf("\n\nTotal Female Student: %d && Total Male Student: %d.\n",f,m);
-    printf("\n");
-    system("pause"); //Make the screen wait for a key press.
-
-}
-void break_t(unsigned int t)
-{
-    clock_t tym=t+clock();
-    while(tym>clock());
-}
-
-void date_time()
-{
-    char tim[50];
-    char day[50];
-    time_t currenttime;
-    time(&currenttime);
-    struct tm *myt=localtime(&currenttime);
-    strftime(tim,sizeof(tim),"%x",myt);
-    strftime(day,sizeof(day),"%I:%M%p",myt);
-
-    printf("\t\tDate:%s\t\t\t\t\t\t\t\tTime:%s\n",tim,day);
-}
-
-void intro()
-{
-    while(1)
-    {
-        int k,p;
-        system("cls");//to make the screen clean
-        printf("\n\n");
-        //printf("************************************************************************************************************************\n\n");
-        //printf("\t\t\t\t\tDaffodil International University\n\n");
-        //printf("************************************************************************************************************************");
-        printf("\n\n\n");
-        date_time();
-        printf("\n\n\n\n");
-        printf("\t\t\t\t\t\tSTUDENT MANAGEMENT SYSTEM\n");
-        printf("\t\t\t\t\t*-------------------------------------*\n");
-        printf("\n\n");
-        if(k==1)
-        {
-            printf("\n\n");
-            printf("\t\t\t\t\t\tWrong password!! ,try again\n");
-        }
-        k=0;
-        if(p==1)
-        {
-            printf("\n");
-            printf("\t\t\t\t\t\tIncorrect Username!! ,try again\n");
-        }
-        p=0;
-        char username[100],password[100];
-        printf("\n\t\t\t\t\t\tUsername:");
-        scanf("%s",username);
-        getchar();
-        printf("\n");
-        printf("\t\t\t\t\t\tPassword:");
-        int l=0;
-
-
-        do
-        {
-            password[l]=getch();
-            if(password[l]!='\r');
-            {
-                printf("*");
-            }
-            l++;
-        }
-        while(password[l-1]!='\r');
-        password[l-1]='\0';
-
-        if(strcmp(username,"diu")==0&&strcmp(password,rtrv)==0)
-        {
-            system("cls");
-            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-            printf("\t\t\t\t\tWelcome to student management system");
-            for(int i=0; i<10; i++)
-            {
-                break_t(130);
-                printf(".");
-            }
-
-            break;
-        }
-        else
-        {
-            if(strcmp(password,rtrv)!=0)
-            {
-                k=1;
-            }
-            if(strcmp(username,"diu")!=0)
-            {
-                p=1;
-            }
-
-            //system("cls");
-
-        }
-    }
-
-}
-
-
-int main()
-{
-
-    if((file=fopen("sectiong.txt","rb+"))==NULL)
-    {
-        if((file=fopen("sectiong.txt","wb+"))==NULL)
-        {
-            printf("The file can not be opened\n");
-        }
-    }
-
-
-    f1=fopen("password.txt","r");
-    fscanf(f1,"%s",&rtrv);
-
-    intro();
-
-    while(1)
+      for( i=0;i<10;i++)
     {
 
+    sound(999);
+    setcolor(0);
+    outtextxy(220,210," ACEESS GRANTED ");
+    delay(50);
+    setcolor(15);
+    outtextxy(220,210," ACEESS GRANTED ");
+    nosound();
 
-        int press;
-        printf("\n");
-        print_title();
-
-        printf("\t\t\t\t\t\t1. Add New Records\n\n");
-        printf("\t\t\t\t\t\t2. Display all Students Records\n\n");
-        printf("\t\t\t\t\t\t3. Delete Records\n\n");
-        printf("\t\t\t\t\t\t4. Search and View Records\n\n");
-        printf("\t\t\t\t\t\t5. Modify Records\n\n");
-        printf("\t\t\t\t\t\t6. Change Password\n\n");
-        printf("\t\t\t\t\t\t7. Exit\n\n");
-
-        int choice;
-        printf("\n\t\t\t\t\t\tEnter Option:--> ");
-        scanf("%d",&choice);
-        switch(choice)
-        {
-        case 1:
-
-        {
-            add_new_student( );
-
-        }
-        break;
-        case 2:
-
-        {
-            display_student();
-
-        }
-        break;
-        case 3:
-
-        {
-            remove_student();
-        }
-        break;
-        case 4:
-
-        {
-            search_student();
-
-        }
-        break;
-        case 5:
-
-        {
-            modify_student_data();
-        }
-        break;
-        case 6:
-        {
-            change_password();
-        }
-        break;
-        case 7:
-
-        {
-            system("cls");
-            exit(0);
-
-        }
-        break;
-        default:
-        {
-            printf("Wrong Input.. END!!\n");
-
-        }
-        }
     }
 
-    return 0;
+     delay(1500); /*for pause the screen to sometime to display message. */
+     break;
 
-}
+  }
+  else
+  {
+   int gd=DETECT,gm, i;
+    initgraph(&gd,&gm,"C:\\turboc3\\bgi");
+    draw_screen();
+
+    delay(1400);
+    setcolor(15);
+    setfillstyle(1,3);
+    rectangle(460,249,140,180);
+    rectangle(450,240,148,189);
+    floodfill(451,241,15);
+
+  /* This for loop is for getting the sound effect */
+
+    for( i=0;i<10;i++)
+    {
+
+    sound(999);
+    setcolor(0);
+    outtextxy(220,210," ACEESS DENIED ");
+    delay(99);
+    setcolor(15);
+    outtextxy(220,210," ACEESS DENIED ");
+    nosound();
+
+     }
+
+    delay(2000); /* for pause the screen to sometime to display message. */
+    exit(1);
+
+  }
+
+  }
+
+   /* following coad is to check whether the user press backslash or delete
+      8 for ascii value of backspace  */
+
+    if(ch==8)
+    {
+    i--;
+    i--;
+    X=X-15;
+    fflush(stdin);
+
+   /* The following is the restriction for * to print to backward side
+      Otherwise the * is printed backward to input box */
+
+    if(X<206)
+   {
+    X=206;
+    }
+
+    setcolor(15);
+    settextstyle(2,0,7);
+    outtextxy(X,Y,"*");
+    X=X-15;
+    nosound();
+
+    }
+
+    /* IF YOU PRESS ESC THEN EXITING THE SYSTEM */
+
+    if(ch==27)
+    exit_system();
+
+    if(i>10)
+    {
+     sound(9999);
+
+     }
+
+    sound(800);
+    setcolor(0);
+    settextstyle(2,0,7);
+    outtextxy(X,Y,"*");
+
+    X=X+15;
+    delay(100);
+    nosound();
+
+  }
+
+  }
+
+   void draw_screen()
+   {
+
+   setcolor(15);
+   line(0,30,640,30);
+   line(0,31,640,31);
+   line(0,32,640,32);
+   line(0,33,640,33);
+   line(0,34,640,34);
+   setfillstyle(1,3);
+   floodfill(0,0,15);
+
+  /* Bottom Horizontal line */
+
+    setcolor(15);
+    line(0,450,640,450);
+    line(0,451,640,451);
+    line(0,452,640,452);
+    line(0,453,640,453);
+    line(0,454,640,454);
+    setfillstyle(1,3);
+    floodfill(0,460,15);
+
+   }
+      void initialize_mouse()
+   {
+
+    i.x.ax=0;
+    int86(0x33,&i,&o);
+
+   }
+
+   void show_mouse()
+   {
+
+    i.x.ax=1;
+    int86(0x33,&i,&o);
+
+   }
+
+   void get_mouse()
+   {
+
+    i.x.ax=3;
+    int86(0x33,&i,&o);
+
+    }
+  void add_window()
+  {
+    setcolor(3);
+    settextstyle(12,0,1);
+    outtextxy(110,50,"|||***** _ENTER STUDENT DATABASE MANUALLY_ *****|||");
+
+  /* FOLLOWING COAD IS TO ADD RECORD/MODIFY */
+
+    setcolor(3);  /* INTERNAL WINDOW */
+    setfillstyle(1,8);
+    rectangle(570,400,60,100);
+    rectangle(571,401,59,99);
+    setcolor(3);    /* OUTER WINDOW  */
+    rectangle(590,420,40,80);
+    rectangle(591,421,39,79);
+    floodfill(579,418,3);
+
+   }
+
+ void add_student_record()
+   {
+      char INPUT ;
+      struct STUDENT S;
+      int gd=DETECT,gm;
+      FILE *fp;
+      initgraph(&gd,&gm,"C:\\turboc3\\bgi");
+      cleardevice();
+      draw_screen();
+      add_window();
+      fp=fopen("C:\\DATABASE.DAT","a");
+      if(fp==NULL)
+      {
+      clrscr();
+      printf("FILE OPENING ERROR ");
+      delay(1000);
+      exit(1);
+      }
+      fseek(fp,0,SEEK_END);
+      fflush(stdin);
+      INPUT='Y';
+      while(INPUT=='Y'||INPUT=='y')
+      {
+      int gd=DETECT,gm;
+      initgraph(&gd,&gm,"C:\\turboc3\\bgi");
+      cleardevice();
+      draw_screen();
+      add_window();
+      fflush(stdin);
+      gotoxy(10,8);
+      printf("ROLL NO OF STUDENT :: ");
+      scanf("%d",&S.ROLL_NO);
+      gotoxy(10,9);
+      printf("ENTER FIRST NAME :: ");
+      scanf("%s",S.F_NAME);
+      gotoxy(10,10);
+      printf("ENTER LAST NAME :: ");
+      scanf("%s",S.L_NAME);
+      gotoxy(10,11);
+      printf(" SEX MALE OR FEMALE :: ");
+      scanf("%s",S.SEX);
+      gotoxy(10,12);
+      printf(" COURSE NAME :: ");
+      scanf("%s",S.COURSE_NAME);
+      gotoxy(10,13);
+      printf(" ADMISSION DATE DD/MM/YY FORMAT :: ");
+      gotoxy(49,13);
+      scanf("%d",&S.DAY);
+      gotoxy(51,13);
+      printf("/");
+      gotoxy(53,13);
+      scanf("%d",&S.MONTH);
+      gotoxy(55,13);
+      printf("/");
+      gotoxy(56,13);
+      scanf("%d",&S.YEAR);
+      gotoxy(10,14);
+
+      printf(" FEES STATUS [PAID OR DUE] :: ");
+      scanf("%s",S.FEES);
+
+      gotoxy(10,15);
+      printf(" MARKS OF STUDENT :: ");
+      scanf("%f",&S.MARKS);
+      gotoxy(10,16);
+    printf(" MOBILE NO. :: ");
+    scanf("%s",S.MOBILE_NO);
+    gotoxy(10,17);
+    printf(" ADDRESS[STREET] :: ");
+    scanf("%s",S.A.STREET);
+    gotoxy(10,18);
+    printf(" LAND MARK :: ");
+    scanf("%s",S.A.IM);
+    gotoxy(10,19);
+    printf(" CITY :: ");
+    scanf("%s",S.A.CITY);
+    gotoxy(10,20);
+    printf(" PIN :: ") ;
+    scanf("%s",S.A.PIN);
+    gotoxy(10,21);
+    printf(" COUNTRY :: ");
+    scanf("%s",S.A.COUNTRY);
+
+    fwrite(&S,sizeof(S),1,fp);
+    initgraph(&gd,&gm,"C:\\turboc3\\bgi");
+    cleardevice();
+    draw_screen();
+    gotoxy(20,14);
+    setcolor(3);
+    setfillstyle(1,8);
+    rectangle(460,249,140,180);
+    rectangle(450,240,148,189);
+    floodfill(451,241,3);
+    printf("ADD ANOTHER RECORD (YES/NO) ");
+    fflush(stdin);
+    INPUT=getch();
+    }
+    fclose(fp);
+
+  }
+  void search_student_record()
+   {
+
+    struct STUDENT S;
+    int gd=DETECT,gm,RNO;
+    FILE *fp;
+    initgraph(&gd,&gm,"C:\\turboc3\\bgi");
+
+    cleardevice();
+    draw_screen();
+
+  /* FOLLOWING COAD PRINTS THE INPUT BOX FOR SEARCH RECORD/DELETE/MODIFY RECORD */
+
+    setcolor(3);
+    setfillstyle(1,8);
+    rectangle(460,249,140,180);
+    rectangle(450,240,148,189);
+    floodfill(451,241,3);
+    gotoxy(20,14);
+    printf("ENTER ROLL NO :");
+    scanf("%d",&RNO);
+
+    fp=fopen("C:\\DATABASE.DAT","rb+");
+    if(fp==NULL)
+    {
+    cleardevice();
+    gotoxy(25,10);
+    printf("FILE OPENING ERROR !");
+    delay(1500);
+    }
+    while(fread(&S,sizeof(S),1,fp)==1)
+    {
+    if(strcmp(&S.ROLL_NO,&RNO)==0)
+    {
+    cleardevice();
+    initgraph(&gd,&gm,"C:\\turboc3\\bgi");
+    draw_screen();
+    display_data();
+
+    gotoxy(10,8);
+    printf("NAME :: %s ",S.L_NAME);
+    gotoxy(28,8);
+    printf("%s",S.F_NAME);
+    gotoxy(10,10);
+    printf("ROLL NO :: %d",S.ROLL_NO);
+    gotoxy(35,10);
+    printf("SEX :: %s",S.SEX);
+    gotoxy(35,12);
+    printf("ADMISSION DATE :: ");
+    printf("%d/%d/%d",S.DAY,S.MONTH,S.YEAR);
+    gotoxy(10,12);
+    printf("COURSE_NAME :: %s",S.COURSE_NAME);
+    gotoxy(10,14);
+    printf("FEES STATUS :: %s",S.FEES);
+    gotoxy(35,14);
+    printf("MAKRS :: %f",S.MARKS);
+    gotoxy(10,16);
+    printf("MOBILE NO ::%s",S.MOBILE_NO);
+
+    gotoxy(18,18);
+    printf(" **************** ADDRESS ***************** ");
+    gotoxy(10,20);
+    printf("%s",S.A.STREET);
+    gotoxy(10,21);
+    printf("%s",S.A.IM);
+    gotoxy(10,22);
+    printf("%s",S.A.CITY);
+    gotoxy(10,23);
+    printf("%s",S.A.PIN);
+    gotoxy(10,24);
+    printf("%s",S.A.COUNTRY);
+    delay(5000);
+    break;
+     }
+    }
+   }
+    void display_data()
+    {
+      setcolor(3);
+    settextstyle(12,0,1);
+    outtextxy(145,50,"|||***** _DETAILS OF STUDENT_ *****|||");
+
+  /* FOLLOWING COAD IS TO ADD RECORD/MODIFY */
+
+    setcolor(3);  /* INTERNAL WINDOW  */
+    setfillstyle(1,8);
+    rectangle(570,400,60,100);
+    rectangle(571,401,59,99);
+    setcolor(3);    /* OUTER WINDOW */
+    rectangle(590,420,40,80);
+    rectangle(591,421,39,79);
+    floodfill(579,418,3);
+    }
+
+     void delete_student_record()
+   {
+    int RNO;
+    FILE *fp,*fp1;
+    struct STUDENT S;
+    int gd=DETECT,gm;
+    initgraph(&gd,&gm,"C:\\turboc3\\bgi");
+    cleardevice();
+    draw_screen();
+
+ /* FOLLOWING COAD PRINTS THE INPUT BOX FOR SEARCH RECORD/DELETE/MODIFY RECORD */
+
+    setcolor(3);
+    setfillstyle(1,8);
+    rectangle(460,249,140,180);
+    rectangle(450,240,148,189);
+    floodfill(451,241,3);
+    gotoxy(20,14);
+    printf("ENTER ROLL NUMBER   :");
+    scanf("%d",&RNO);
+    fp=fopen("C:\\DATABASE.DAT","rb+");
+    fp=fopen("C:\\TEMP.DAT","wb+");
+    rewind(fp);
+    while(fread(&S,sizeof(S),1,fp)==1)
+    {
+    if(strcmp(&S.ROLL_NO,&RNO)!=0)
+    {
+    fwrite(&S,sizeof(S),1,fp1);
+    }
+    }
+    fclose(fp);
+    fclose(fp1);
+    remove("C:\\DATABASE.DAT");
+    rename("C:\\TEMP.DAT","C:\\DATABASE.DAT");
+    }
+
+    void modify_student_record()
+   {
+    struct STUDENT S;
+    FILE *fp;
+    long int size=sizeof(S);
+    char NAME[15];
+    int gd=DETECT,gm;
+    initgraph(&gd,&gm,"C:\\turboc3\\bgi");
+    cleardevice();
+    draw_screen();
+
+    /*   FOLLOWING COAD IS TO ADD RECORD/MODIFY  */
+
+    setcolor(3);
+    setfillstyle(1,8);
+    rectangle(570,400,60,100);
+    rectangle(571,401,59,99);
+    setcolor(3);
+    rectangle(590,420,40,80);
+    rectangle(591,421,39,79);
+    floodfill(579,418,3);
+
+    /* FOLLOWING COAD PRINTS THE INPUT BOX FOR MODIFY RECORD */
+
+    setcolor(3);
+    setfillstyle(1,8);
+    rectangle(460,249,140,180);
+    rectangle(450,240,148,189);
+    floodfill(451,241,3);
+    gotoxy(20,14);
+
+    printf("ENTER FIRST NAME :: ");
+    scanf("%s",NAME);
+    initgraph(&gd,&gm,"C:\\turboc3\\bgi");
+    cleardevice();
+    draw_screen();
+    add_window();
+
+    fp=fopen("C:\\DATABASE.DAT","rb+");
+
+    rewind(fp);
+    while(fread(&S,sizeof(S),1,fp)==1)
+    {
+    if(strcmp(S.F_NAME,NAME)==0)
+   {
+    gotoxy(10,8);
+    printf(" ROLL NO : ");
+    scanf("%d",&S.ROLL_NO);
+    gotoxy(10,9);
+    printf(" FIRST NAME :: ");
+    scanf("%s",S.F_NAME);
+    gotoxy(10,10);
+    printf(" LAST NAME :: ");
+    scanf("%s",S.L_NAME);
+    gotoxy(10,11);
+    printf(" SEX MALE OR FEMALE :: ");
+    scanf("%s",S.SEX);
+    gotoxy(10,12);
+    printf(" COURSE NAME :: ");
+    scanf("%s",S.COURSE_NAME);
+    gotoxy(10,13);
+    printf(" ADMISSION DATE DD/MM/YY FORMAT :: ");
+    gotoxy(49,13);
+    scanf("%d",&S.DAY);
+    gotoxy(51,13);
+    printf("/");
+    gotoxy(53,13);
+    scanf("%d",&S.MONTH);
+    gotoxy(55,13);
+    printf("/");
+    gotoxy(56,13);
+    scanf("%d",&S.YEAR);
+    gotoxy(10,14);
+    printf("FEES STATUS PAID OR DUE :: ");
+    scanf("%s",S.FEES);
+    gotoxy(10,15);
+    printf(" MARKS OF STUDENT :: ");
+    scanf("%f",&S.MARKS);
+
+    gotoxy(10,16);
+    printf(" MOBILE NO. :: ");
+    scanf("%s",S.MOBILE_NO);
+    gotoxy(10,17);
+    printf(" ADDRESS[STREET] :: ");
+    scanf("%s",S.A.STREET);
+    gotoxy(10,18);
+    printf(" LAND MARK :: ");
+    scanf("%s",S.A.IM);
+    gotoxy(10,19);
+    printf(" CITY :: ");
+    scanf("%s",S.A.CITY);
+    gotoxy(10,20);
+    printf(" PIN :: ") ;
+
+    scanf("%s",S.A.PIN);
+    gotoxy(10,21);
+    printf(" COUNTRY :: ");
+    scanf("%s",S.A.COUNTRY);
+    fseek(fp,-size,SEEK_CUR);
+    fwrite(&S,size,1,fp);
+
+}  /* END OF IF */
+      }  /* END OF WHILE  */
+    fclose(fp);
+
+    }
+
+   void list_records()
+   {
+    struct STUDENT S;
+    FILE *fp;
+
+  /* Y=6 for records to be printed along y-axis and goes increasing order 1by1 */
+
+    int Y=6;
+    int gd=DETECT,gm;
+    initgraph(&gd,&gm,"C:\\turboc3\\bgi");
+    cleardevice();
+    draw_screen();
+
+  /* FOLLOWING WINDOW IS FOR LIST RECORD  */
+
+    setcolor(3);
+    rectangle(610,448,21,40);
+    rectangle(611,449,20,39);
+
+  /* line to draw a horizontal above square. */
+
+    line(20,65,610,65);
+    line(21,66,611,66);
+
+  /* ROLL NO COLUMN  */
+
+    line(50,40,50,449);
+    gotoxy(4,4);
+    printf("NO.");
+
+  /* NAME COLUMN */
+
+    gotoxy(8,4);
+    printf("NAME OF STUDENT");
+    line(292,40,292,449);
+
+  /* ADMISSION DATE */
+
+    gotoxy(38,4);
+    printf("ADM. DATE");
+    line(380,40,380,449);
+
+  /* COURSE NAME */
+
+    gotoxy(49,4);
+    printf("COURSE");
+    line(440,40,440,449);
+
+  /* FEES PAID OR NOT  */
+
+    gotoxy(57,4);
+    printf("FEES");
+    line(500,40,500,449);
+
+  /* THE REMAINING COLUMN IS FOR MOBILE NO */
+
+    gotoxy(65,4);
+    printf("MOBILE NO.");
+
+    fp=fopen("C:\\DATABASE.DAT","rb+");
+    rewind(fp);
+
+   while(fread(&S,sizeof(S),1,fp)==1)
+   {
+    gotoxy(4,Y);
+    printf("%d",S.ROLL_NO);
+    gotoxy(8,Y);
+    printf("%s",S.F_NAME);
+    gotoxy(19,Y);
+    printf("%s",S.L_NAME);
+    gotoxy(38,Y);
+    printf("%d/%d/%d",S.DAY,S.MONTH,S.YEAR);
+    gotoxy(50,Y);
+    printf("%s",S.COURSE_NAME);
+    gotoxy(58,Y);
+    printf("%s",S.FEES);
+    gotoxy(66,Y);
+    printf("%s",S.MOBILE_NO);
+    Y++;
+   }
+
+    delay(10000);
+    fclose(fp);
+
+   }
+     void backup_database()
+   {
+    struct STUDENT S;
+
+    FILE *fp,*backup;
+    fp=fopen("C:\\DATABASE.DAT","rb+");
+
+    if(fp==NULL)
+     {
+     cleardevice();
+     draw_screen();
+     gotoxy(25,10);
+    printf("FILE OPENING ERROR");
+    delay(2000);
+    exit(1);
+     }
+
+    backup=fopen("E:\\BACKUP.DAT","wb+");/* r+ because reads the existing content and write new contents */
+  if(backup==NULL)
+   {
+    cleardevice();
+    draw_screen();
+    gotoxy(25,10);
+    printf("FILE OPENING ERROR");
+    delay(2500);
+    exit(1);
+
+    }
+    progress();
+    rewind(fp);
+    while(fread(&S,sizeof(S),1,fp)==1)
+    fwrite(&S,sizeof(S),1,backup);
+    fclose(backup);
+    fclose(fp);
+
+    }
+
+  void progress()
+  {
+
+    int gd=DETECT,gm,i;
+
+    initgraph(&gd,&gm,"C:\\turboc3\\bgi");
+
+    for( i=130;i<=495;i++)
+    {
+      draw_screen();
+      setfillstyle(1,3);
+      bar(i,255,150,265);
+      sound(2*i);
+      delay(9);
+
+     }
+
+    nosound();
+    setcolor(15);
+    gotoxy(12,12);
+    outtextxy(200,240,"DATA BACKUP SUCCESSFULLY....");
+    delay(5000);
+
+     }
+
+    void exit_system()
+  {
+  int gd=DETECT,gm;
+  initgraph(&gd,&gm,"C:\\turboc3\\bgi");
+  cleardevice();
+  draw_screen();
+  gotoxy(12,10);
+  printf("EXITING THE SYSTEM PLEASE WAIT ......");
+  delay(1000);
+  exit(0);
+
+   }
