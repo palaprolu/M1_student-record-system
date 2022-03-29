@@ -1,1303 +1,462 @@
-/**
-                        Student's Record
-                ---------------------------------
-**/
+//
+// Created by Debashish on 4/10/2017.
+//
 
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<math.h>
+#include <windows.h>
 
+#define Student struct Stud
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <conio.h>
+void add(FILE * fp);
+void modify(FILE * fp);
+void display(FILE * fp);
+void Indivisual(FILE *fp);
+void password();
+FILE * del(FILE * fp);
+void printChar(char ch,int n);
+void title();
+FILE *tp;
 
-
-
-struct node
+void gotoxy(int x,int y)
 {
-    int id;
-    char stu_name[50], department[20];
-    float university_current_result, university_overall_result;
-    long long int stu_p_number, stu_fathers_p_number, stu_mothers_p_number;
-    char present_address[200], permanent_address[200];
-    char stu_fathers_name[50], stu_mothers_name[50];
-    char stu_blood_group[7];
-    char university_name[100], section[5], semester[5];
-    char college_name[100], hsc_board[20];
-    float hsc_gpa, ssc_gpa;
-    int hsc_passing_year, ssc_passing_year;
-    char school_name[100],ssc_board[20];
-    char about_student_details[500];
-
-
-    struct node *next;
-    struct node *previous;
-
-} *start = NULL, *end = NULL;
-FILE *file;
-
-
-
-/**    Shadhin    **/
-void create_students_record()
-{
-    struct node *new_node, *current;
-    int i, number_of_node;
-
-    printf("\n\n\n\n\n\n\t\t\tEnter Number of Student's for Record: ");
-    scanf("%d", &number_of_node);
-    cls();
-
-    for(i = 1; i <= number_of_node; i++)
-    {
-        new_node = (struct node *)malloc(sizeof(struct node));
-
-        if(new_node == NULL)
-        {
-            printf("\nMemory Does Not Created.\n");
-            exit(0);
-        }
-        else
-        {
-            file = fopen("Student's Record.txt","a+");
-            if(file == NULL)
-            {
-                printf("File does not create.\n");
-            }
-            else
-            {
-                printf("\n\n\t\t\tStudent's Details\n");
-                fprintf(file,"\n\n\t\t\tStudent's Details\n");
-                printf("\t\t_________________________________\n");
-                fprintf(file,"\t\t_________________________________\n");
-
-                printf("\n\n\tEnter Student Name: ");
-                fflush(stdin);
-                gets(new_node->stu_name);
-                fprintf(file,"\n\tStudent Name: %s", new_node->stu_name);
-
-                printf("\n\tID: ");
-                scanf("%d", &new_node->id);
-                fprintf(file,"\n\tID: %d",new_node->id);
-
-                printf("\n\tSection: ");
-                fflush(stdin);
-                gets(new_node->section);
-                fprintf(file,"\n\tSection: %s", new_node->section);
-
-                printf("\n\tSemester: ");
-                fflush(stdin);
-                gets(new_node->semester);
-                fprintf(file,"\n\tSemester: %s", new_node->semester);
-
-                printf("\n\tDepartment: ");
-                fflush(stdin);
-                gets(new_node->department);
-                fprintf(file,"\n\tDepartment: %s", new_node->department);
-
-                printf("\n\tUniversity Name: ");
-                fflush(stdin);
-                gets(new_node->university_name);
-                fprintf(file,"\n\tUniversity Name: %s", new_node->university_name);
-
-                printf("\n\tStudent Blood Group: ");
-                fflush(stdin);
-                gets(new_node->stu_blood_group);
-                fprintf(file,"\n\tStudent Blood Group: %s", new_node->stu_blood_group);
-
-                printf("\n\tUniversity Current Semester Result: ");
-                scanf("%f", &new_node->university_current_result);
-                fprintf(file,"\n\tUniversity Current Semester Result: %0.2f",new_node->university_current_result);
-
-                printf("\n\tUniversity Overall Result: ");
-                scanf("%f", &new_node->university_overall_result);
-                fprintf(file,"\n\tUniversity Overall Result: %0.2f",new_node->university_overall_result);
-
-                printf("\n\n\n\t\t\tStudent's Background\n");
-                fprintf(file,"\n\n\n\t\t\tStudent's Background\n");
-                printf("\t\t____________________________________");
-                fprintf(file,"\t\t____________________________________");
-
-                printf("\n\n\tCollege Name: ");
-                fflush(stdin);
-                gets(new_node->college_name);
-                fprintf(file,"\n\n\tCollege Name: %s", new_node->college_name);
-
-                printf("\n\tH.S.C Passing Year: ");
-                scanf("%d", &new_node->hsc_passing_year);
-                fprintf(file,"\n\tH.S.C Passing Year: %d",new_node->hsc_passing_year);
-
-                printf("\n\tH.S.C Result in GPA: ");
-                scanf("%f", &new_node->hsc_gpa);
-                fprintf(file,"\n\tH.S.C Result in GPA: %0.2f",new_node->hsc_gpa);
-
-                printf("\n\n\tH.S.C Board: ");
-                fflush(stdin);
-                gets(new_node->hsc_board);
-                fprintf(file,"\n\tH.S.C Board: %s", new_node->hsc_board);
-
-                printf("\n\tSchool Name: ");
-                fflush(stdin);
-                gets(new_node->school_name);
-                fprintf(file,"\n\tSchool Name: %s", new_node->school_name);
-
-                printf("\n\tS.S.C Passing Year: ");
-                scanf("%d", &new_node->ssc_passing_year);
-                fprintf(file,"\n\tS.S.C Passing Year: %d",new_node->ssc_passing_year);
-
-                printf("\n\tS.S.C Result in GPA: ");
-                scanf("%f", &new_node->ssc_gpa);
-                fprintf(file,"\n\tS.S.C Result in GPA: %0.2f",new_node->ssc_gpa);
-
-                printf("\n\n\tS.S.C Board: ");
-                fflush(stdin);
-                gets(new_node->ssc_board);
-                fprintf(file,"\n\tS.S.C Board: %s", new_node->ssc_board);
-
-                printf("\n\n\n\t\t\tStudent's Contract Information\n");
-                fprintf(file,"\n\n\n\t\t\tStudent's Contract Information\n");
-                printf("\t\t_____________________________________________");
-                fprintf(file,"\t\t_____________________________________________");
-
-                printf("\n\n\tStudent's Phone Number: ");
-                scanf("%lld", &new_node->stu_p_number);
-                fprintf(file,"\n\n\tStudent's Phone Number: %lld",new_node->stu_p_number);
-
-                printf("\n\tFather's Name: ");
-                fflush(stdin);
-                gets(new_node->stu_fathers_name);
-                fprintf(file,"\n\tFather's Name: %s",new_node->stu_fathers_name);
-
-                printf("\n\tMother's Name: ");
-                fflush(stdin);
-                gets(new_node->stu_mothers_name);
-                fprintf(file,"\n\tMother's Name: %s",new_node->stu_mothers_name);
-
-                printf("\n\tFather's Phone Number: ");
-                scanf("%lld", &new_node->stu_fathers_p_number);
-                fprintf(file,"\n\tFather's Phone Number: %lld",new_node->stu_fathers_p_number);
-
-                printf("\n\tMother's Phone Number: ");
-                scanf("%lld", &new_node->stu_mothers_p_number);
-                fprintf(file,"\n\tMother's Phone Number: %lld",new_node->stu_mothers_p_number);
-
-
-                printf("\n\n\tPresent Address: ");
-                fflush(stdin);
-                gets(new_node->present_address);
-                fprintf(file,"\n\tPresent Address: %s",new_node->present_address);
-
-                printf("\n\tPermanent Address: ");
-                fflush(stdin);
-                gets(new_node->permanent_address);
-                fprintf(file,"\n\tPermanent Address: %s",new_node->permanent_address);
-
-                printf("\n\tOther's Details and Comment: ");
-                fflush(stdin);
-                gets(new_node->about_student_details);
-                fprintf(file,"\n\tOther's Details and Comment: %s",new_node->about_student_details);
-
-                fclose(file);
-                fopen("Student's Record.txt","a+");
-            }
-
-            new_node->next = NULL;
-            new_node->previous = NULL;
-
-            if(start == NULL && end == NULL)
-            {
-                start = new_node;
-                end = new_node;
-                current = new_node;
-            }
-            else
-            {
-                current->next = new_node;
-                new_node->previous = current;
-                current = new_node;
-                end = new_node;
-            }
-        }
-    }
+	COORD CRD;
+    CRD.X = x;
+    CRD.Y = y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),CRD);
 }
 
-
-
-/**    Shadhin    **/
-void add_student_record_at_first()
+struct pass
 {
-    struct node *new_node, *current;
-    new_node = (struct node *)malloc(sizeof(struct node));
+	char pass[25];
+}pa;
 
-    if(new_node == NULL)
-    {
-        printf("\nMemory Does Not Created.\n");
-        exit(0);
-    }
-    else
-    {
-        file = fopen("Student's Record.txt","a+");
-        if(file == NULL)
-        {
-            printf("File does not create.\n");
-        }
-        else
-        {
-            printf("\n\n\t\t\tStudent's Details\n");
-            fprintf(file,"\n\n\t\t\tStudent's Details\n");
-            printf("\t\t_________________________________\n");
-            fprintf(file,"\t\t_________________________________\n");
-
-            printf("\n\n\tEnter Student Name: ");
-            fflush(stdin);
-            gets(new_node->stu_name);
-            fprintf(file,"\n\tStudent Name: %s", new_node->stu_name);
-
-            printf("\n\tID: ");
-            scanf("%d", &new_node->id);
-            fprintf(file,"\n\tID: %d",new_node->id);
-
-            printf("\n\tSection: ");
-            fflush(stdin);
-            gets(new_node->section);
-            fprintf(file,"\n\tSection: %s", new_node->section);
-
-            printf("\n\tSemester: ");
-            fflush(stdin);
-            gets(new_node->semester);
-            fprintf(file,"\n\tSemester: %s", new_node->semester);
-
-            printf("\n\tDepartment: ");
-            fflush(stdin);
-            gets(new_node->department);
-            fprintf(file,"\n\tDepartment: %s", new_node->department);
-
-            printf("\n\tUniversity Name: ");
-            fflush(stdin);
-            gets(new_node->university_name);
-            fprintf(file,"\n\tUniversity Name: %s", new_node->university_name);
-
-            printf("\n\tStudent Blood Group: ");
-            fflush(stdin);
-            gets(new_node->stu_blood_group);
-            fprintf(file,"\n\tStudent Blood Group: %s", new_node->stu_blood_group);
-
-            printf("\n\tUniversity Current Semester Result: ");
-            scanf("%f", &new_node->university_current_result);
-            fprintf(file,"\n\tUniversity Current Semester Result: %0.2f",new_node->university_current_result);
-
-            printf("\n\tUniversity Overall Result: ");
-            scanf("%f", &new_node->university_overall_result);
-            fprintf(file,"\n\tUniversity Overall Result: %0.2f",new_node->university_overall_result);
-
-            printf("\n\n\n\t\t\tStudent's Background\n");
-            fprintf(file,"\n\n\n\t\t\tStudent's Background\n");
-            printf("\t\t____________________________________");
-            fprintf(file,"\t\t____________________________________");
-
-            printf("\n\n\tCollege Name: ");
-            fflush(stdin);
-            gets(new_node->college_name);
-            fprintf(file,"\n\n\tCollege Name: %s", new_node->college_name);
-
-            printf("\n\tH.S.C Passing Year: ");
-            scanf("%d", &new_node->hsc_passing_year);
-            fprintf(file,"\n\tH.S.C Passing Year: %d",new_node->hsc_passing_year);
-
-            printf("\n\tH.S.C Result in GPA: ");
-            scanf("%f", &new_node->hsc_gpa);
-            fprintf(file,"\n\tH.S.C Result in GPA: %0.2f",new_node->hsc_gpa);
-
-            printf("\n\tH.S.C Board: ");
-            fflush(stdin);
-            gets(new_node->hsc_board);
-            fprintf(file,"\n\tH.S.C Board: %s", new_node->hsc_board);
-
-            printf("\n\tSchool Name: ");
-            fflush(stdin);
-            gets(new_node->school_name);
-            fprintf(file,"\n\tSchool Name: %s", new_node->school_name);
-
-            printf("\n\tS.S.C Passing Year: ");
-            scanf("%d", &new_node->ssc_passing_year);
-            fprintf(file,"\n\tS.S.C Passing Year: %d",new_node->ssc_passing_year);
-
-            printf("\n\tS.S.C Result in GPA: ");
-            scanf("%f", &new_node->ssc_gpa);
-            fprintf(file,"\n\tS.S.C Result in GPA: %0.2f",new_node->ssc_gpa);
-
-            printf("\n\tS.S.C Board: ");
-            fflush(stdin);
-            gets(new_node->ssc_board);
-            fprintf(file,"\n\tS.S.C Board: %s", new_node->ssc_board);
-
-            printf("\n\n\n\t\t\tStudent's Contract Information\n");
-            fprintf(file,"\n\n\n\t\t\tStudent's Contract Information\n");
-            printf("\t\t_____________________________________________");
-            fprintf(file,"\t\t_____________________________________________");
-
-            printf("\n\n\tStudent's Phone Number: ");
-            scanf("%lld", &new_node->stu_p_number);
-            fprintf(file,"\n\n\tStudent's Phone Number: %lld",new_node->stu_p_number);
-
-            printf("\n\tFather's Name: ");
-            fflush(stdin);
-            gets(new_node->stu_fathers_name);
-            fprintf(file,"\n\tFather's Name: %s",new_node->stu_fathers_name);
-
-            printf("\n\tMother's Name: ");
-            fflush(stdin);
-            gets(new_node->stu_mothers_name);
-            fprintf(file,"\n\tMother's Name: %s",new_node->stu_mothers_name);
-
-            printf("\n\tFather's Phone Number: ");
-            scanf("%lld", &new_node->stu_fathers_p_number);
-            fprintf(file,"\n\tFather's Phone Number: %lld",new_node->stu_fathers_p_number);
-
-            printf("\n\tMother's Phone Number: ");
-            scanf("%lld", &new_node->stu_mothers_p_number);
-            fprintf(file,"\n\tMother's Phone Number: %lld",new_node->stu_mothers_p_number);
-
-
-            printf("\n\tPresent Address: ");
-            fflush(stdin);
-            gets(new_node->present_address);
-            fprintf(file,"\n\tPresent Address: %s",new_node->present_address);
-
-            printf("\n\tPermanent Address: ");
-            fflush(stdin);
-            gets(new_node->permanent_address);
-            fprintf(file,"\n\tPermanent Address: %s",new_node->permanent_address);
-
-            printf("\n\tOther's Details and Comment: ");
-            fflush(stdin);
-            gets(new_node->about_student_details);
-            fprintf(file,"\n\tOther's Details and Comment: %s",new_node->about_student_details);
-
-            fclose(file);
-            fopen("Student's Record.txt","a+");
-        }
-    }
-
-    new_node->next = NULL;
-    new_node->previous = NULL;
-
-    current = start;
-    new_node->next = current;
-    current->previous = new_node;
-    start = new_node;
-}
-
-
-
-/**    Shadhin    **/
-void add_student_record_at_last()
+struct Stud
 {
-    struct node *new_node, *current;
-    new_node = (struct node *)malloc(sizeof(struct node));
-
-    if(new_node == NULL)
-    {
-        printf("\nMemory Does Not Created.\n");
-        exit(0);
-    }
-    else
-    {
-        file = fopen("Student's Record.txt","a+");
-        if(file == NULL)
-        {
-            printf("File does not create.\n");
-        }
-        else
-        {
-            printf("\n\n\t\t\tStudent's Details\n");
-            fprintf(file,"\n\n\t\t\tStudent's Details\n");
-            printf("\t\t_________________________________\n");
-            fprintf(file,"\t\t_________________________________\n");
-
-            printf("\n\n\tEnter Student Name: ");
-            fflush(stdin);
-            gets(new_node->stu_name);
-            fprintf(file,"\n\tStudent Name: %s", new_node->stu_name);
-
-            printf("\n\tID: ");
-            scanf("%d", &new_node->id);
-            fprintf(file,"\n\tID: %d",new_node->id);
-
-            printf("\n\tSection: ");
-            fflush(stdin);
-            gets(new_node->section);
-            fprintf(file,"\n\tSection: %s", new_node->section);
-
-            printf("\n\tSemester: ");
-            fflush(stdin);
-            gets(new_node->semester);
-            fprintf(file,"\n\tSemester: %s", new_node->semester);
-
-            printf("\n\tDepartment: ");
-            fflush(stdin);
-            gets(new_node->department);
-            fprintf(file,"\n\tDepartment: %s", new_node->department);
-
-            printf("\n\tUniversity Name: ");
-            fflush(stdin);
-            gets(new_node->university_name);
-            fprintf(file,"\n\tUniversity Name: %s", new_node->university_name);
-
-            printf("\n\tStudent Blood Group: ");
-            fflush(stdin);
-            gets(new_node->stu_blood_group);
-            fprintf(file,"\n\tStudent Blood Group: %s", new_node->stu_blood_group);
-
-            printf("\n\tUniversity Current Semester Result: ");
-            scanf("%f", &new_node->university_current_result);
-            fprintf(file,"\n\tUniversity Current Semester Result: %0.2f",new_node->university_current_result);
-
-            printf("\n\tUniversity Overall Result: ");
-            scanf("%f", &new_node->university_overall_result);
-            fprintf(file,"\n\tUniversity Overall Result: %0.2f",new_node->university_overall_result);
-
-            printf("\n\n\n\t\t\tStudent's Background\n");
-            fprintf(file,"\n\n\n\t\t\tStudent's Background\n");
-            printf("\t\t____________________________________");
-            fprintf(file,"\t\t____________________________________");
-
-            printf("\n\n\tCollege Name: ");
-            fflush(stdin);
-            gets(new_node->college_name);
-            fprintf(file,"\n\n\tCollege Name: %s", new_node->college_name);
-
-            printf("\n\tH.S.C Passing Year: ");
-            scanf("%d", &new_node->hsc_passing_year);
-            fprintf(file,"\n\tH.S.C Passing Year: %d",new_node->hsc_passing_year);
-
-            printf("\n\tH.S.C Result in GPA: ");
-            scanf("%f", &new_node->hsc_gpa);
-            fprintf(file,"\n\tH.S.C Result in GPA: %0.2f",new_node->hsc_gpa);
-
-            printf("\n\tH.S.C Board: ");
-            fflush(stdin);
-            gets(new_node->hsc_board);
-            fprintf(file,"\n\tH.S.C Board: %s", new_node->hsc_board);
-
-            printf("\n\tSchool Name: ");
-            fflush(stdin);
-            gets(new_node->school_name);
-            fprintf(file,"\n\tSchool Name: %s", new_node->school_name);
-
-            printf("\n\tS.S.C Passing Year: ");
-            scanf("%d", &new_node->ssc_passing_year);
-            fprintf(file,"\n\tS.S.C Passing Year: %d",new_node->ssc_passing_year);
-
-            printf("\n\tS.S.C Result in GPA: ");
-            scanf("%f", &new_node->ssc_gpa);
-            fprintf(file,"\n\tS.S.C Result in GPA: %0.2f",new_node->ssc_gpa);
-
-            printf("\n\tS.S.C Board: ");
-            fflush(stdin);
-            gets(new_node->ssc_board);
-            fprintf(file,"\n\tS.S.C Board: %s", new_node->ssc_board);
-
-            printf("\n\n\n\t\t\tStudent's Contract Information\n");
-            fprintf(file,"\n\n\n\t\t\tStudent's Contract Information\n");
-            printf("\t\t_____________________________________________");
-            fprintf(file,"\t\t_____________________________________________");
-
-            printf("\n\n\tStudent's Phone Number: ");
-            scanf("%lld", &new_node->stu_p_number);
-            fprintf(file,"\n\n\tStudent's Phone Number: %lld",new_node->stu_p_number);
-
-            printf("\n\tFather's Name: ");
-            fflush(stdin);
-            gets(new_node->stu_fathers_name);
-            fprintf(file,"\n\tFather's Name: %s",new_node->stu_fathers_name);
-
-            printf("\n\tMother's Name: ");
-            fflush(stdin);
-            gets(new_node->stu_mothers_name);
-            fprintf(file,"\n\tMother's Name: %s",new_node->stu_mothers_name);
-
-            printf("\n\tFather's Phone Number: ");
-            scanf("%lld", &new_node->stu_fathers_p_number);
-            fprintf(file,"\n\tFather's Phone Number: %lld",new_node->stu_fathers_p_number);
-
-            printf("\n\tMother's Phone Number: ");
-            scanf("%lld", &new_node->stu_mothers_p_number);
-            fprintf(file,"\n\tMother's Phone Number: %lld",new_node->stu_mothers_p_number);
-
-
-            printf("\n\tPresent Address: ");
-            fflush(stdin);
-            gets(new_node->present_address);
-            fprintf(file,"\n\tPresent Address: %s",new_node->present_address);
-
-            printf("\n\tPermanent Address: ");
-            fflush(stdin);
-            gets(new_node->permanent_address);
-            fprintf(file,"\n\tPermanent Address: %s",new_node->permanent_address);
-
-            printf("\n\tOther's Details and Comment: ");
-            fflush(stdin);
-            gets(new_node->about_student_details);
-            fprintf(file,"\n\tOther's Details and Comment: %s",new_node->about_student_details);
-
-            fclose(file);
-            fopen("Student's Record.txt","a+");
-        }
-    }
-
-    new_node->next = NULL;
-    new_node->previous = NULL;
-
-
-    current = end;
-    current->next = new_node;
-    new_node->previous = current;
-    end = new_node;
-}
-
-
-
-/**    Shadhin    **/
-void add_student_record_at_middle()
-{
-    struct node *new_node, *current, *temp1, *temp2;
-    int i,student_id,position;
-
-    new_node = (struct node *)malloc(sizeof(struct node));
-
-    if(new_node == NULL)
-    {
-        printf("\nMemory Does Not Created.\n");
-        exit(0);
-    }
-    else
-    {
-        file = fopen("Student's Record.txt","a+");
-        if(file == NULL)
-        {
-            printf("File does not create.\n");
-        }
-        else
-        {
-            printf("\n\n\t\t\tStudent's Details\n");
-            fprintf(file,"\n\n\t\t\tStudent's Details\n");
-            printf("\t\t_________________________________\n");
-            fprintf(file,"\t\t_________________________________\n");
-
-            printf("\n\n\tEnter Student Name: ");
-            fflush(stdin);
-            gets(new_node->stu_name);
-            fprintf(file,"\n\tStudent Name: %s", new_node->stu_name);
-
-            printf("\n\tID: ");
-            scanf("%d", &new_node->id);
-            fprintf(file,"\n\tID: %d",new_node->id);
-
-            printf("\n\tSection: ");
-            fflush(stdin);
-            gets(new_node->section);
-            fprintf(file,"\n\tSection: %s", new_node->section);
-
-            printf("\n\tSemester: ");
-            fflush(stdin);
-            gets(new_node->semester);
-            fprintf(file,"\n\tSemester: %s", new_node->semester);
-
-            printf("\n\tDepartment: ");
-            fflush(stdin);
-            gets(new_node->department);
-            fprintf(file,"\n\tDepartment: %s", new_node->department);
-
-            printf("\n\tUniversity Name: ");
-            fflush(stdin);
-            gets(new_node->university_name);
-            fprintf(file,"\n\tUniversity Name: %s", new_node->university_name);
-
-            printf("\n\tStudent Blood Group: ");
-            fflush(stdin);
-            gets(new_node->stu_blood_group);
-            fprintf(file,"\n\tStudent Blood Group: %s", new_node->stu_blood_group);
-
-            printf("\n\tUniversity Current Semester Result: ");
-            scanf("%f", &new_node->university_current_result);
-            fprintf(file,"\n\tUniversity Current Semester Result: %0.2f",new_node->university_current_result);
-
-            printf("\n\tUniversity Overall Result: ");
-            scanf("%f", &new_node->university_overall_result);
-            fprintf(file,"\n\tUniversity Overall Result: %0.2f",new_node->university_overall_result);
-
-            printf("\n\n\n\t\t\tStudent's Background\n");
-            fprintf(file,"\n\n\n\t\t\tStudent's Background\n");
-            printf("\t\t____________________________________");
-            fprintf(file,"\t\t____________________________________");
-
-            printf("\n\n\tCollege Name: ");
-            fflush(stdin);
-            gets(new_node->college_name);
-            fprintf(file,"\n\n\tCollege Name: %s", new_node->college_name);
-
-            printf("\n\tH.S.C Passing Year: ");
-            scanf("%d", &new_node->hsc_passing_year);
-            fprintf(file,"\n\tH.S.C Passing Year: %d",new_node->hsc_passing_year);
-
-            printf("\n\tH.S.C Result in GPA: ");
-            scanf("%f", &new_node->hsc_gpa);
-            fprintf(file,"\n\tH.S.C Result in GPA: %0.2f",new_node->hsc_gpa);
-
-            printf("\n\tH.S.C Board: ");
-            fflush(stdin);
-            gets(new_node->hsc_board);
-            fprintf(file,"\n\tH.S.C Board: %s", new_node->hsc_board);
-
-            printf("\n\tSchool Name: ");
-            fflush(stdin);
-            gets(new_node->school_name);
-            fprintf(file,"\n\tSchool Name: %s", new_node->school_name);
-
-            printf("\n\tS.S.C Passing Year: ");
-            scanf("%d", &new_node->ssc_passing_year);
-            fprintf(file,"\n\tS.S.C Passing Year: %d",new_node->ssc_passing_year);
-
-            printf("\n\tS.S.C Result in GPA: ");
-            scanf("%f", &new_node->ssc_gpa);
-            fprintf(file,"\n\tS.S.C Result in GPA: %0.2f",new_node->ssc_gpa);
-
-            printf("\n\tS.S.C Board: ");
-            fflush(stdin);
-            gets(new_node->ssc_board);
-            fprintf(file,"\n\tS.S.C Board: %s", new_node->ssc_board);
-
-            printf("\n\n\n\t\t\tStudent's Contract Information\n");
-            fprintf(file,"\n\n\n\t\t\tStudent's Contract Information\n");
-            printf("\t\t_____________________________________________");
-            fprintf(file,"\t\t_____________________________________________");
-
-            printf("\n\n\tStudent's Phone Number: ");
-            scanf("%lld", &new_node->stu_p_number);
-            fprintf(file,"\n\n\tStudent's Phone Number: %lld",new_node->stu_p_number);
-
-            printf("\n\tFather's Name: ");
-            fflush(stdin);
-            gets(new_node->stu_fathers_name);
-            fprintf(file,"\n\tFather's Name: %s",new_node->stu_fathers_name);
-
-            printf("\n\tMother's Name: ");
-            fflush(stdin);
-            gets(new_node->stu_mothers_name);
-            fprintf(file,"\n\tMother's Name: %s",new_node->stu_mothers_name);
-
-            printf("\n\tFather's Phone Number: ");
-            scanf("%lld", &new_node->stu_fathers_p_number);
-            fprintf(file,"\n\tFather's Phone Number: %lld",new_node->stu_fathers_p_number);
-
-            printf("\n\tMother's Phone Number: ");
-            scanf("%lld", &new_node->stu_mothers_p_number);
-            fprintf(file,"\n\tMother's Phone Number: %lld",new_node->stu_mothers_p_number);
-
-
-            printf("\n\tPresent Address: ");
-            fflush(stdin);
-            gets(new_node->present_address);
-            fprintf(file,"\n\tPresent Address: %s",new_node->present_address);
-
-            printf("\n\tPermanent Address: ");
-            fflush(stdin);
-            gets(new_node->permanent_address);
-            fprintf(file,"\n\tPermanent Address: %s",new_node->permanent_address);
-
-            printf("\n\tOther's Details and Comment: ");
-            fflush(stdin);
-            gets(new_node->about_student_details);
-            fprintf(file,"\n\tOther's Details and Comment: %s",new_node->about_student_details);
-
-            fclose(file);
-            fopen("Student's Record.txt","a+");
-        }
-    }
-
-    new_node->next = NULL;
-    new_node->previous = NULL;
-
-    cls();
-
-    printf("Enter ID before Insert Record: ");
-    scanf("%d", &student_id);
-
-    position = pos(student_id);
-
-    current = start;
-    for(i = 1; i <= (position - 1); i++)
-    {
-        current = current->next;
-    }
-
-    temp2 = current;
-    temp1 = current->previous;
-    temp1->next = new_node;
-    new_node->previous = temp1;
-    new_node->next = temp2;
-    temp2->previous = new_node;
-}
-
-
-
-/**    Mehedi    **/
-void display_students_record_from_forward()
-{
-    struct node *current;
-
-    current = start;
-
-    if(current == NULL)
-    {
-        printf("\n\n\n\n\n\n\n\t\t\tThere Are No Record In The List.\n");
-    }
-    else
-    {
-        while(current != NULL)
-        {
-            printf("\n\t\t\tStudent's Details\n");
-            printf("\t\t_________________________________");
-
-            printf("\n\tStudent Name: %s", current->stu_name);
-
-            printf("\n\tID: %d", current->id);
-
-            printf("\n\tSection: %s", current->section);
-
-            printf("\n\tSemester: %s", current->semester);
-
-            printf("\n\tDepartment: %s", current->department);
-
-            printf("\n\tUniversity Name: %s", current->university_name);
-
-            printf("\n\tStudent Blood Group: %s", current->stu_blood_group);
-
-            printf("\n\tUniversity Current Semester Result: %0.2f", current->university_current_result);
-
-            printf("\n\tUniversity Overall Result: %0.2f", current->university_overall_result);
-
-
-
-            printf("\n\n\n\t\t\tStudent's Background\n");
-            printf("\t\t____________________________________");
-
-
-            printf("\n\tCollege Name: %s", current->college_name);
-
-            printf("\n\tH.S.C Passing Year: %d", current->hsc_passing_year);
-
-            printf("\n\tH.S.C Result in GPA: %0.2f", current->hsc_gpa);
-
-            printf("\n\tH.S.C Board: %s", current->hsc_board);
-
-            printf("\n\tSchool Name: %s", current->school_name);
-
-            printf("\n\tS.S.C Passing Year: %d", current->ssc_passing_year);
-
-            printf("\n\tS.S.C Result in GPA: %0.2f", current->ssc_gpa);
-
-            printf("\n\tS.S.C Board: %s", current->ssc_board);
-
-
-
-            printf("\n\n\n\t\t\tStudent's Contract Information\n");
-            printf("\t\t_____________________________________________");
-
-
-
-            printf("\n\tStudent's Phone Number: %lld", current->stu_p_number);
-
-            printf("\n\tFather's Name: %s", current->stu_fathers_name);
-
-            printf("\n\tMothers Name: %s", current->stu_mothers_name);
-
-            printf("\n\tFather's Phone Number: %lld", current->stu_fathers_p_number);
-
-            printf("\n\tMother's Phone Number: %lld", current->stu_mothers_p_number);
-
-            printf("\n\tPresent Address: %s", current->present_address);
-
-            printf("\n\tPermanent Address: %s", current->permanent_address);
-
-            printf("\n\tOther's Details and Comment: %s", current->about_student_details);
-
-
-
-            current = current->next;
-            printf("\n");
-        }
-    }
-}
-
-
-
-/**    Mehedi    **/
-void display_students_record_from_backward()
-{
-    struct node *current;
-
-    current = end;
-
-    if(current == NULL)
-    {
-        printf("\n\n\n\n\n\n\n\t\t\tThere Are No Record In The List.\n");
-    }
-    else
-    {
-        while(current != NULL)
-        {
-            printf("\n\t\t\tStudent's Details\n");
-            printf("\t\t_________________________________");
-
-            printf("\n\tStudent Name: %s", current->stu_name);
-
-            printf("\n\tID: %d", current->id);
-
-            printf("\n\tSection: %s", current->section);
-
-            printf("\n\tSemester: %s", current->semester);
-
-            printf("\n\tDepartment: %s", current->department);
-
-            printf("\n\tUniversity Name: %s", current->university_name);
-
-            printf("\n\tStudent Blood Group: %s", current->stu_blood_group);
-
-            printf("\n\tUniversity Current Semester Result: %0.2f", current->university_current_result);
-
-            printf("\n\tUniversity Overall Result: %0.2f", current->university_overall_result);
-
-
-
-            printf("\n\n\n\t\t\tStudent's Background\n");
-            printf("\t\t____________________________________");
-
-
-            printf("\n\tCollege Name: %s", current->college_name);
-
-            printf("\n\tH.S.C Passing Year: %d", current->hsc_passing_year);
-
-            printf("\n\tH.S.C Result in GPA: %0.2f", current->hsc_gpa);
-
-            printf("\n\tH.S.C Board: %s", current->hsc_board);
-
-            printf("\n\tSchool Name: %s", current->school_name);
-
-            printf("\n\tS.S.C Passing Year: %d", current->ssc_passing_year);
-
-            printf("\n\tS.S.C Result in GPA: %0.2f", current->ssc_gpa);
-
-            printf("\n\tS.S.C Board: %s", current->ssc_board);
-
-
-
-            printf("\n\n\n\t\t\tStudent's Contract Information\n");
-            printf("\t\t_____________________________________________");
-
-
-
-            printf("\n\tStudent's Phone Number: %lld", current->stu_p_number);
-
-            printf("\n\tFather's Name: %s", current->stu_fathers_name);
-
-            printf("\n\tMothers Name: %s", current->stu_mothers_name);
-
-            printf("\n\tFather's Phone Number: %lld", current->stu_fathers_p_number);
-
-            printf("\n\tMother's Phone Number: %lld", current->stu_mothers_p_number);
-
-            printf("\n\tPresent Address: %s", current->present_address);
-
-            printf("\n\tPermanent Address: %s", current->permanent_address);
-
-            printf("\n\tOther's Details and Comment: %s", current->about_student_details);
-
-
-
-            current = current->previous;
-            printf("\n");
-        }
-    }
-}
-
-
-
-/**    Shadhin    **/
-int pos(student_id)
-{
-    int position = 0;
-    struct node *current;
-
-    current = start;
-
-    while(current != NULL)
-    {
-        position++;
-        if(student_id == current->id)
-        {
-            return position;
-        }
-        current = current->next;
-    }
-    return -1;
-}
-
-
-
-/**    Antor    **/
-int search_students_record(student_id)
-{
-    int position = 0;
-    struct node *current;
-
-    current = start;
-
-    while(current != NULL)
-    {
-        position++;
-        if(student_id == current->id)
-        {
-            printf("\n\t\t\tStudent's Details\n");
-            printf("\t\t_________________________________");
-
-            printf("\n\tStudent Name: %s", current->stu_name);
-
-            printf("\n\tID: %d", current->id);
-
-            printf("\n\tSection: %s", current->section);
-
-            printf("\n\tSemester: %s", current->semester);
-
-            printf("\n\tDepartment: %s", current->department);
-
-            printf("\n\tUniversity Name: %s", current->university_name);
-
-            printf("\n\tStudent Blood Group: %s", current->stu_blood_group);
-
-            printf("\n\tUniversity Current Semester Result: %0.2f", current->university_current_result);
-
-            printf("\n\tUniversity Overall Result: %0.2f", current->university_overall_result);
-
-
-
-            printf("\n\n\n\t\t\tStudent's Background\n");
-            printf("\t\t____________________________________");
-
-
-            printf("\n\tCollege Name: %s", current->college_name);
-
-            printf("\n\tH.S.C Passing Year: %d", current->hsc_passing_year);
-
-            printf("\n\tH.S.C Result in GPA: %0.2f", current->hsc_gpa);
-
-            printf("\n\tH.S.C Board: %s", current->hsc_board);
-
-            printf("\n\tSchool Name: %s", current->school_name);
-
-            printf("\n\tS.S.C Passing Year: %d", current->ssc_passing_year);
-
-            printf("\n\tS.S.C Result in GPA: %0.2f", current->ssc_gpa);
-
-            printf("\n\tS.S.C Board: %s", current->ssc_board);
-
-
-
-            printf("\n\n\n\t\t\tStudent's Contract Information\n");
-            printf("\t\t_____________________________________________");
-
-
-
-            printf("\n\tStudent's Phone Number: %lld", current->stu_p_number);
-
-            printf("\n\tFather's Name: %s", current->stu_fathers_name);
-
-            printf("\n\tMothers Name: %s", current->stu_mothers_name);
-
-            printf("\n\tFather's Phone Number: %lld", current->stu_fathers_p_number);
-
-            printf("\n\tMother's Phone Number: %lld", current->stu_mothers_p_number);
-
-            printf("\n\tPresent Address: %s", current->present_address);
-
-            printf("\n\tPermanent Address: %s", current->permanent_address);
-
-            printf("\n\tOther's Details and Comment: %s", current->about_student_details);
-
-
-            printf("\n\n");
-            getch();
-            cls();
-
-            return position;
-        }
-        current = current->next;
-    }
-    return -1;
-}
-
-
-
-/**    Shukdeb    **/
-void delete_students_record()
-{
-    struct node *current, *temp1, *temp2;
-    int i, delet_id, position;
-
-    printf("Enter ID for delete: ");
-    scanf("%d", &delet_id);
-    position = pos(delet_id);
-
-    current = start;
-    for(i = 1; i <= (position - 1); i++)
-    {
-        current = current->next;
-    }
-    if(current == start && current->previous == NULL)
-    {
-        current = current->next;
-        start = current;
-        current->previous = NULL;
-        printf("\nFirst ID Delete Successfully.\n");
-    }
-    else if(current->next == NULL && current == end)
-    {
-        current = current->previous;
-        end = current;
-        current->next = NULL;
-        printf("\nLast ID Delete Successfully.\n");
-    }
-    else
-    {
-        temp2 = current->next;
-        temp1 = current->previous;
-        temp1->next = temp2;
-        temp2->previous = temp1;
-        printf("\nDelete Successfully.\n");
-    }
-}
-
-
-
-
-/**    Shadhin    **/
-void length_of_the_students_record()
-{
-    struct node *current;
-    int count = 0;
-
-    current = start;
-
-    while(current != NULL)
-    {
-        count++;
-        current = current->next;
-    }
-
-    printf("\n\n\n\n\n\n\n\t\t\tThere are %d number of Student's in the Record.", count);
-    printf("\n                                     And the length is %d.\n",count);
-}
-
-
-
-void cls()
-{
-    system("cls");
-}
-
+    char name[100];
+    char dept[50];
+    int roll;
+    float sgpa[12];
+    float cgpa;
+};
 
 
 int main()
 {
-    system("color A");
+    int ch,id,k,i;
+    char c,add,pas[50];
+    SetConsoleTitle("Student Management System | DIU");
+    FILE * fp;
+    Student s;
+    int option;
+    char another;
 
-    printf("\n\n\n\n\n\n\n\n\t\t\t\t\t|____________________|\n\t\t\t\t\t|                    |\n\t\t\t\t\t|\tWelcome      |\n\t\t\t\t\t|____________________|\n\t\t\t\t\t|\t\t     |\n\n\n");
+    if((fp=fopen("db.txt","rb+"))==NULL)
+    {
+        if((fp=fopen("db.txt","wb+"))==NULL)
+        {
+            printf("Can't create or open Database.");
+            return 0;
+        }
+    }
+    system("color 9f");
+	gotoxy(42,8);
+	printf("LOGIN(If 1st login press ENTER)");
+	gotoxy(42,10);
+	printf("____________________________________");
+	gotoxy(42,11);
+	printf("|\tEnter password :             |");
+	gotoxy(42,12);
+	printf("|__________________________________|");
+	//printf("\n\t\t\t\t\t");
+	gotoxy(65,11);
+	while( k<10)
+	{
+	    pas[k]=getch();
+	    char s=pas[k];
+	    if(s==13)
+		 break;
+	    else printf("*");
+	    k++;
+	}
+	pas[k]='\0';
+	tp=fopen("F:/Password.txt","r+");
+    fgets(pa.pass,25,tp);
+    if(strcmp(pas,pa.pass)==0)
+	{
+		system("cls");
+		gotoxy(10,3);
+		printf("<<<< Loading Please Wait >>>>");
+		for(i=0; i<5; i++)
+        {
+            printf("\t(*_*)");
+            Sleep(500);
+        }
+        printf(" \n\n\n\n\n\t\t\t\t\t     *  *  *  *  *  *  *  *");
+		printf("\n\n\t\t\t\t\t     *                    *");
+		printf("\n\n\t\t\t\t\t     *       Welcome      *");
+		printf("\n\n\t\t\t\t\t     *                    *");
+		printf("\n\n\t\t\t\t\t     *  *  *  *  *  *  *  *");
+		printf("\n\n\n\n\n\t\t\t\t\tPress any key to continue...... ");
+		getch();
+
+    title();
+    printf("\n\n\t\t\t\tLab Final Spring 2017");
+    printf("\n\n\t\t\t\t     The A Team");
+    printf("\n\n\t\t\t  Daffodil International University\n\t\t\t");
+    printChar('=',38);
+    printf("\n\n\n\t\t\t       press any key to Enter");
     getch();
-    cls();
-
-    int choice, position, student_id, insert_choice, display_choice;
 
     while(1)
     {
-        printf("\n\t\t\t\t\tStudent's Record\n");
-        printf("\t\t\t_______________________________________________");
-        printf("\n\n");
+        title();
+        printf("\n\t");
+        printChar('*',64);
 
-        printf("------------------------------------------------------------------------------------------");
-        printf("\n\n");
-        printf("\t\t\t\t1. Create Record.\n");
-        printf("\t\t\t\t2. Add Record.\n");
-        printf("\t\t\t\t3. Display Record.\n");
-        printf("\t\t\t\t4. Search Record.\n");
-        printf("\t\t\t\t5. Delete Record.\n");
-        printf("\t\t\t\t6. Modify Record.\n");
-        printf("\t\t\t\t7. Length of the Record.\n");
-        printf("\t\t\t\t8. Top Student's Record.\n");
-        printf("\t\t\t\t9. Exit.\n\n");
-        printf("------------------------------------------------------------------------------------------");
+        printf("\n\n\t\t\t\t1. Add Student");
+        printf("\n\n\t\t\t\t2. Modify Student");
+        printf("\n\n\t\t\t\t3. Show All Student");
+        printf("\n\n\t\t\t\t4. Individual View");
+        printf("\n\n\t\t\t\t5. Remove Student");
+        printf("\n\n\t\t\t\t6. Change Password");
+        printf("\n\n\t\t\t\t7. Logout\n\t");
+        printChar('*',64);
+        printf("\n\n\t\t\t\tEnter Your Option :--> ");
+        scanf("%d",&option);
 
-        printf("\n\t\t\tPlease Enter your choice: ");
-        scanf("%d", &choice);
-        printf("\n");
-
-
-        cls();
-
-        switch(choice)
+        switch(option)
         {
-            case 1: create_students_record();
-                    cls();
-                    printf("\n\n\n\n\n\n\n\t\t\tRecord Created Successfully.");
-                    getch();
-                    cls();
-                    break;
-
-
-            case 2: while(1)
-                    {
-                        printf("\n\n\n\n\n");
-                        printf("------------------------------------------------------------------------------------------");
-                        printf("\n\n");
-                        printf("\t\t\t\t1. Add Record At First.\n");
-                        printf("\t\t\t\t2. Add Record At Last.\n");
-                        printf("\t\t\t\t3. Add Record At Middle.\n");
-                        printf("\t\t\t\t4. Back To Main Program.\n\n");
-                        printf("------------------------------------------------------------------------------------------");
-
-                        printf("\n\n\n\t\t\tPlease Enter your choice: ");
-                        scanf("%d", &insert_choice);
-                        printf("\n\n");
-
-                        cls();
-
-                        switch(insert_choice)
-                        {
-                            case 1: add_student_record_at_first();
-                                    cls();
-                                    printf("\n\n\n\n\n\n\n\t\t\tRecord Added successfully.");
-                                    getch();
-                                    cls();
-                                    break;
-
-                            case 2: add_student_record_at_last();
-                                    cls();
-                                    printf("\n\n\n\n\n\n\n\t\t\tRecord Added successfully.");
-                                    getch();
-                                    cls();
-                                    break;
-
-                            case 3: add_student_record_at_middle();
-                                    cls();
-                                    printf("\n\n\n\n\n\n\n\t\t\tRecord Added successfully.");
-                                    getch();
-                                    cls();
-                                    break;
-
-                            case 4: main();
-                                    break;
-
-                            default:printf("\n\n\n\n\n\n\n\t\t\t\tInvalid input!!!");
-                                    printf("\n\t\t\tPlease Enter Correct Key to Access.");
-                                    printf("\n\t\t\t\tOr Enter 4 to Main menu.\n");
-                                    getch();
-                                    cls();
-                        }
-                    }
-                    getch();
-                    cls();
-                    break;
-
-
-            case 3: while(1)
-                    {
-                        printf("\n\n\n\n\n");
-                        printf("------------------------------------------------------------------------------------------");
-                        printf("\n\n");
-                        printf("\t\t\t\t1. Display From Forward.\n");
-                        printf("\t\t\t\t2. Display From Backward.\n");
-                        printf("\t\t\t\t3. Back To Main Program.\n\n");
-                        printf("------------------------------------------------------------------------------------------");
-
-                        printf("\n\n\n\t\t\tPlease Enter your choice: ");
-                        scanf("%d", &display_choice);
-                        printf("\n\n");
-
-                        cls();
-
-                        switch(display_choice)
-                        {
-                            case 1: display_students_record_from_forward();
-                                    getch();
-                                    cls();
-                                    break;
-
-                            case 2: display_students_record_from_backward();
-                                    getch();
-                                    cls();
-                                    break;
-
-                            case 3: main();
-                                    break;
-
-                            default:printf("\n\n\n\n\n\n\n\t\t\t\tInvalid input!!!");
-                                    printf("\n\t\t\tPlease Enter Correct Key to Access.");
-                                    printf("\n\t\t\t\tOr Enter 3 to Main menu.\n");
-                                    getch();
-                                    cls();
-                        }
-                    }
-                    getch();
-                    cls();
-                    break;
-
-
-            case 4: printf("\n\n\n\n\n\n\t\t\tEnter ID: ");
-                    scanf("%d",&student_id);
-                    cls();
-
-                    position = search_students_record(student_id);
-                    if(position == -1)
-                    {
-                        printf("\n\n\n\n\n\n\t\t\tThis ID is not in the Record.\n");
-                        getch();
-                        cls();
-                    }
-                    else
-                    {
-                        printf("\n\n\n\n\n\n\t\t\tThe Position of this Record is at Number %d.\n", position);
-                        getch();
-                        cls();
-                    }
-                    break;
-
-
-            case 5: delete_students_record();
-                    getch();
-                    cls();
-                    break;
-
-
-            case 6: break;
-
-
-            case 7: length_of_the_students_record();
-                    getch();
-                    cls();
-                    break;
-
-
-            case 8: break;
-
-
-            case 9: exit(1);
-                    break;
-
-
-            default:printf("\n\n\n\n\n\n\n\t\t\t\tInvalid input!!!");
-                    printf("\n\t\t\tPlease Enter Correct Key to Access.");
-                    printf("\n\t\t\t\tOr Enter 8 to Exit.\n");
-                    getch();
-                    cls();
+            case 1:
+                //add(fp);
+                break;
+            case 2:
+                modify(fp);
+                break;
+            case 3:
+                display(fp);
+                break;
+            case 4:
+                Indivisual(fp);
+                break;
+            case 5:
+                fp=del(fp);
+                break;
+            case 6:
+                    system("cls");
+				    system("color 5f");
+			        password();
+                break;
+            case 7:
+                return 1;
+                break;
+            default:
+                printf("\n\t\tNo Action Detected");
+                printf("\n\t\tPress Any Key\n\n\n");
+                getch();
+                system("pause");
         }
     }
+    }
+    else
+    {
+        printf("Wrong Password . Get Out");
+        getch();
+    }
+    return 1;
+
 }
+
+
+void password()
+{
+	char c;
+	printf("\nEnter new password :");
+	fflush(stdin);
+	gets(pa.pass);
+	printf("\nSave password (y/n) :");
+	fflush(stdin);
+	scanf("%c",&c);
+	if(c=='y'||c=='Y')
+	{
+		tp=fopen("F:/Password.txt","w+");
+	    fwrite(&pa,sizeof(pa),1,tp);
+	    fclose(tp);
+		printf("\n\tPassword Saved\n");
+	}
+	else
+	{
+		printf("Password not saved :\n");
+		printf("Press any key to continue >>>");
+		getch();
+	}
+}
+
+
+void printChar(char ch,int n)
+{
+    while(n--)
+    {
+        putchar(ch);
+    }
+}
+
+void title()
+{
+    system("cls");
+    system("COLOR 03");
+    printf("\n\n\t");
+    printChar('=',19);
+    printf(" Student Management System ");
+    printChar('=',19);
+    printf("\n");
+}
+
+
+//Insert at end
+
+void add(FILE * fp)
+{
+    title();
+
+    char another='y';
+    Student s;
+    int i;
+    float cgpa;
+
+    fseek(fp,0,SEEK_END);
+    while(another=='y'||another=='Y')
+    {
+
+        printf("\n\n\t\tEnter Full Name of Student: ");
+        fflush(stdin);
+        fgets(s.name,100,stdin);
+        s.name[strlen(s.name)-1]='\0';
+
+        printf("\n\n\t\tEnter Depertment Name: ");
+        fflush(stdin);
+        fgets(s.dept,50,stdin);
+        s.dept[strlen(s.dept)-1]='\0';
+
+        printf("\n\n\t\tEnter Roll number: ");
+        scanf("%d",&s.roll);
+
+        printf("\n\n\tEnter SGPA for 12 semesters\n");
+        for(i=0,cgpa=0; i<12; i++)
+        {
+            scanf("%f",&s.sgpa[i]);
+            cgpa+=s.sgpa[i];
+
+        }
+
+        cgpa/=12.0;
+        s.cgpa=cgpa;
+
+        fwrite(&s,sizeof(s),1,fp);
+
+        printf("\n\n\t\tAdd another student?(Y/N)?");
+        fflush(stdin);
+        another=getchar();
+    }
+}
+
+
+FILE * del(FILE * fp)
+{
+    title();
+
+    Student s;
+    int flag=0,tempRoll,siz=sizeof(s);
+    FILE *ft;
+
+    if((ft=fopen("temp.txt","wb+"))==NULL)
+    {
+        printf("\n\n\t\t\t\\t!!! ERROR !!!\n\t\t");
+        system("pause");
+        return fp;
+    }
+
+    printf("\n\n\tEnter Roll number of Student to Delete the Record");
+    printf("\n\n\t\t\tRoll No. : ");
+    scanf("%d",&tempRoll);
+
+    rewind(fp);
+
+
+    while((fread(&s,siz,1,fp))==1)
+    {
+        if(s.roll==tempRoll)
+        {
+            flag=1;
+            printf("\n\tRecord Deleted for");
+            printf("\n\n\t\t%s\n\n\t\t%s\n\n\t\t%d\n\t",s.name,s.dept,s.roll);
+            continue;
+        }
+
+        fwrite(&s,siz,1,ft);
+    }
+
+
+    fclose(fp);
+    fclose(ft);
+
+    remove("db.txt");
+    rename("temp.txt","db.txt");
+
+    if((fp=fopen("db.txt","rb+"))==NULL)
+    {
+        printf("ERROR");
+        return  NULL;
+    }
+
+    if(flag==0) printf("\n\n\t\tNO STUDENT FOUND WITH THE INFORMATION\n\t");
+
+    printChar('-',65);
+    printf("\n\t");
+    system("pause");
+    return fp;
+}
+
+
+void modify(FILE * fp)
+{
+    title();
+
+    Student s;
+    int i,flag=0,tempRoll,siz=sizeof(s);
+    float cgpa;
+
+    printf("\n\n\tEnter Roll Number of Student to MODIFY the Record : ");
+    scanf("%d",&tempRoll);
+
+    rewind(fp);
+
+    while((fread(&s,siz,1,fp))==1)
+    {
+        if(s.roll==tempRoll)
+        {
+            flag=1;
+            break;
+        }
+    }
+
+    if(flag==1)
+    {
+        fseek(fp,-siz,SEEK_CUR);
+        printf("\n\n\t\t\t\tRecord Found\n\t\t\t");
+        printChar('=',38);
+        printf("\n\n\t\t\tStudent Name: %s",s.name);
+        printf("\n\n\t\t\tStudent Roll: %d\n\t\t\t",s.roll);
+        printChar('=',38);
+        printf("\n\n\t\t\tEnter New Data for the student");
+
+        printf("\n\n\t\t\tEnter Full Name of Student: ");
+        fflush(stdin);
+        fgets(s.name,100,stdin);
+        s.name[strlen(s.name)-1]='\0';
+
+        printf("\n\n\t\t\tEnter Department: ");
+        fflush(stdin);
+        fgets(s.dept,50,stdin);
+        s.dept[strlen(s.dept)-1]='\0';
+
+        printf("\n\n\t\t\tEnter Roll number: ");
+        scanf("%d",&s.roll);
+
+
+        printf("\n\n\t\tEnter SGPA for 12 semesters\n");
+        for(i=0,cgpa=0; i<12; i++)
+        {
+            scanf("%f",&s.sgpa[i]);
+            cgpa+=s.sgpa[i];
+
+        }
+        cgpa=cgpa/8.0;
+
+
+        fwrite(&s,sizeof(s),1,fp);
+    }
+
+    else printf("\n\n\t!!!! ERROR !!!! RECORD NOT FOUND");
+
+    printf("\n\n\t");
+    system("pause");
+
+}
+
+void display(FILE * fp)
+{
+    title();
+    Student s;
+    int i,siz=sizeof(s);
+
+    rewind(fp);
+
+    while((fread(&s,siz,1,fp))==1)
+    {
+        printf("\n\t\tNAME : %s",s.name);
+        printf("\n\n\t\tDepertment : %s",s.dept);
+        printf("\n\n\t\tROLL : %d",s.roll);
+        printf("\n\n\tSGPA: ");
+
+        for(i=0; i<12; i++)
+            printf("| %.2f |",s.sgpa[i]);
+        printf("\n\n\t\tCGPA : %.2f\n\t",s.cgpa);
+        printChar('-',65);
+    }
+    printf("\n\n\n\t");
+    printChar('*',65);
+    printf("\n\n\t");
+    system("pause");
+}
+
+void Indivisual(FILE *fp)
+{
+    title();
+
+    int tempRoll,flag,siz,i;
+    Student s;
+    char another='y';
+
+    siz=sizeof(s);
+
+    while(another=='y'||another=='Y')
+    {
+        printf("\n\n\tEnter Roll Number: ");
+        scanf("%d",&tempRoll);
+
+        rewind(fp);
+
+        while((fread(&s,siz,1,fp))==1)
+        {
+            if(s.roll==tempRoll)
+            {
+                flag=1;
+                break;
+            }
+        }
+
+        if(flag==1)
+        {
+            printf("\n\t\tNAME : %s",s.name);
+            printf("\n\n\t\tDepartment : %s",s.dept);
+            printf("\n\n\t\tROLL : %d",s.roll);
+            printf("\n\n\tSGPA: ");
+
+            for(i=0; i<12; i++)
+                printf("| %.2f |",s.sgpa[i]);
+            printf("\n\n\t\tCGPA : %.2f\n\t",s.cgpa);
+            printChar('-',65);
+
+        }
+        else printf("\n\n\t\t!!!! ERROR RECORD NOT FOUND !!!!");
+
+
+        printf("\n\n\t\tShow another student information? (Y/N)?");
+        fflush(stdin);
+        another=getchar();
+    }
+}
+
