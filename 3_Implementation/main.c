@@ -1,158 +1,284 @@
-//Designed in Turbo C
-
-#include<conio.h>
 #include<stdio.h>
-#include<stdlib.h>
-
-
-struct Students
+#include <string.h>
+#include <stdlib.h>
+#define size 1000
+typedef struct student
 {
-	int rn;
-	char nm[100];
-	float mks;
-}arr[500];
-
-
-main()
+    char name[30];
+    char ID[20];
+    char e_mail[30];
+    char phone_no[20];
+} std;
+std info[size];
+int l=0;
+void add()
 {
-	clrscr();
-	char f_loc[100];
-	printf("Please Enter a Location where you want the Student.dat file to be saved:\n");
-	fgets(f_loc, 100, stdin);
-	FILE *fp=fopen(f_loc, "w");
-	int f=0, i=0, j, k, r, x;
-	char ch;
-	for(i=0; i<500; )
-	{
-		printf("Enter Roll No., Name and Marks : \n");
-		scanf("%d %s %f", &arr[i].rn, arr[i].nm, &arr[i].mks);
-		fprintf(fp, "%d %s %f\n",arr[i].rn, arr[i].nm, arr[i].mks);
-		i++;
-		printf("Enter 'y' to continue, else enter any value:\n");
-		fflush(stdin);
-		scanf("%c",&ch);
-		if(ch=='y')
-		{
-			i--;
-			break;
-		}
-	}
-	fclose(fp);
-	do
-	{
-		printf("\n\n\nEnter '1' to Add Student\n'2' to Display Students\n'3' to Remove Student\n'4' to Update Student\n'5' to Search Student\n'6' to Exit\n");
-		scanf("%d",&x);
-		switch(x)
-		{
-			case 1:
-				fp=freopen(f_loc, "w");
-				char ch;
-				do
-				{
-					clrscr();
-					printf("Enter Student's Roll Number, Name and Marks:\n");
-					scanf("%d %s %f\n", &arr[i].rn, arr[i].nm, &arr[i].mks);
-					fprintf(fp,"%d %s %f", &arr[i].rn, arr[i].nm, &arr[i].mks);
-					printf("Another entry? (y/n)\n");
-					fflush(stdin);
-					scanf("%c",&ch);
-				}while(ch=='y');
-				fclose(fp);
-				break;
-			case 2:
-				printf("Roll No\tName\tMarks\n");
-				for(j=0; j<=i; j++)
-					printf("%d\t%s\t%f", arr[i].rn, arr[i].nm, arr[i].mks);
-				break;
-			case 3:
-				do
-				{
-					fclose(fp);
-					fp=freopen(f_loc, "w", fp);
-					printf("Enter Roll Number of Student whose record you want to delete:\n");
-					scanf("%d", &r);
-					for(j=0; j<=i; j++)
-						if(r==arr[j].rn)
-						{
-							arr[j]=arr[j+1];
-							i--;
-							break;
-						}
-					j++;
-					for(; j<=i; j++)
-						fprintf(fp, "%d %s %f\n", arr[j].rn, arr[j].nm, arr[j].mks);
-					printf("To Remove another record, enter 'y':\n");
-					scanf("%c" ,&ch);
-				}while(ch=='y');
-				break;
-			case 4:
-				do
-				{
-					fclose(fp);
-					fp=freopen(f_loc, "w");
-					printf("Enter Roll No of Student:\n");
-					scanf("%d", &r);
-					f=0;
-					while(j=0; j<=i; j++)
-					{
-						if(r==arr[i].ro)
-						{
-							f=1;
-							printf("Enter '1' to update Roll No\n'2' to update Name\n'3' to update Marks\n");
-							scanf("%d", &j);
-							if(j==1)
-							{
-								printf("Enter New Roll Number:\n");
-								scanf("%d", &arr[i].rn);
-							}
-							else if(j==2)
-							{
-								printf("Enter New Name:\n");
-								gets(arr[i].nm);
-							}
-							else if(j==3)
-							{
-								printf("Enter New Marks:\n");
-								scanf("%d", &arr[i].mks);
-							}
-							else
-								printf("Invalid Input!");
-							break;
-						}
-						if(f==0)
-						{
-							printf("Invalid Input!");
-							break;
-						}	
-						printf("Another Update? (y/n)\n");
-					}
-				}while(ch=='y');
-				break;
-			case 5:
-				do
-				{
-					printf("Enter Roll Number of Student to be found:\n");
-					fflush(stdin);
-					scanf("%f",&r);
-					f=0;
-					for(j=0;j<=i;j++)
-						if(r==arr[j].rn)
-						{
-							printf("%d\t%s\t%f",arr[j].rn,arr[j].nm,arr[j].mks);
-							f=1;
-							break;
-						}
-					if(f==0)
-						printf("Invalid Input.\n");
-					printf("Enter 'y' to Search Another Student:\n");
-					scanf("%c",&ch);
-				}while(ch=='y');
-				break;
-			case 6:
-				exit(0);
-			default:
-				printf("Invalid Input\n");
-		}
-	}while(x!=6);
-	getch();
+    std st;
+    printf("Enter Student Name: ");
+    fflush(stdin);
+    gets(st.name);
+    printf("Enter Student ID: ");
+    gets(st.ID);
+    printf("Enter E-Mail: ");
+    gets(st.e_mail);
+    printf("Enter Phone Number: ");
+    gets(st.phone_no);
+    info[l]=st;
+    l++;
+
+}
+void modify()
+{
+    int i,j,k=0;
+    char ch[20];
+    printf("Enter (Name/E-mail/Id/Phone Number): ");
+    fflush(stdin);
+    gets(ch);
+    if((ch[0]>='a'&&ch[0]<='z')||(ch[0]>='A'&&ch[0]<='Z')||((ch[0]>='0'&&ch[0]<='9')))
+    {
+        for(i=0; i<l; i++)
+        {
+            if(strcmp(ch,info[i].name)==0||strcmp(ch,info[i].ID)==0||strcmp(ch,info[i].e_mail)==0||strcmp(ch,info[i].phone_no)==0)
+            {
+                printf("Enter Student Name: ");
+                fflush(stdin);
+                gets(info[i].name);
+                printf("Enter Student ID: ");
+                gets(info[i].ID);
+                printf("Enter E-Mail: ");
+                gets(info[i].e_mail);
+                printf("Enter Phone Number: ");
+                gets(info[i].phone_no);
+                k=1;
+                break;
+            }
+        }
+
+
+        if(k==1)
+        {
+            printf("Information has Modified.\n",ch);
+        }
+        else
+        {
+            printf("The Information not found on the record.\n") ;
+        }
+    }
+    else
+    {
+        printf("Invalid Imput!.\n");
+    }
+    char c;
+    printf("Press 0 to clear screen And return main function: ");
+    fflush(stdin);
+    scanf("%c",&c);
+    if(c=='0')
+    {
+        system("CLS");
+    }
+    else
+    {
+        return;
+    }
+}
+void delet()
+{
+    int i,j,k=0;
+    char ch[20];
+    printf("Enter (Name/E-mail/Id/Phone Number): ");
+    fflush(stdin);
+    gets(ch);
+    if((ch[0]>='a'&&ch[0]<='z')||(ch[0]>='A'&&ch[0]<='Z')||((ch[0]>='0'&&ch[0]<='9')))
+    {
+        for(i=0; i<l; i++)
+        {
+            if(strcmp(ch,info[i].name)==0||strcmp(ch,info[i].ID)==0||strcmp(ch,info[i].e_mail)==0||strcmp(ch,info[i].phone_no)==0)
+            {
+                for(j=i; j<l; j++)
+                {
+                    strcpy(info[j].name,info[j+1].name);
+                    strcpy(info[j].ID,info[j+1].ID);
+                    strcpy(info[j].e_mail,info[j+1].e_mail);
+                    strcpy(info[j].phone_no,info[j+1].phone_no);
+
+                }
+                l--;
+                k=1;
+                break;
+            }
+        }
+
+
+        if(k==1)
+        {
+            printf("Erased all of %s's information from the record.\n",ch);
+        }
+        else
+        {
+            printf("The Information not found on the record.\n") ;
+        }
+    }
+    else
+    {
+        printf("Invalid Search!.\n");
+    }
+    char c;
+    printf("Press 0 to clear screen And return main function: ");
+    fflush(stdin);
+    scanf("%c",&c);
+    if(c=='0')
+    {
+        system("CLS");
+    }
+    else
+    {
+        return;
+    }
+
+}
+void search()
+{
+    int i,j=0;
+    char ch[20];
+    printf("Enter (Name/E-mail/Id/Phone Number): ");
+    fflush(stdin);
+    gets(ch);
+
+    if((ch[0]>='a'&&ch[0]<='z')||(ch[0]>='A'&&ch[0]<='Z')||((ch[0]>='0'&&ch[0]<='9')))
+    {
+        for(i=0; i<l; i++)
+        {
+            if(strcmp(ch,info[i].name)==0||strcmp(ch,info[i].ID)==0||strcmp(ch,info[i].e_mail)==0||strcmp(ch,info[i].phone_no)==0)
+            {
+                printf("%d Position Student Information:\n",i+1);
+                printf("\tName:%s\n",info[i].name);
+                printf("\tID:%s\n",info[i].ID);
+                printf("\tE-Mail:%s\n",info[i].e_mail);
+                printf("\tPhone Number%s\n",info[i].phone_no);
+                printf("\n");
+                j=1;
+                break;
+            }
+        }
+        if(j==0)
+        {
+            printf("The Search Information not found on the record.\n");
+        }
+
+
+    }
+    else
+    {
+        printf("Invalid Search!.\n");
+    }
+    char c;
+    printf("Press 0 to clear screen And return main function: ");
+    fflush(stdin);
+    scanf("%c",&c);
+    if(c=='0')
+    {
+        system("CLS");
+    }
+    else
+    {
+        return;
+    }
+}
+void display()
+{
+    int i;
+
+
+    for(i=0; i<l; i++)
+    {
+        printf("%d.Student Information:\n",i+1);
+        printf("\tName:%s\n",info[i].name);
+        printf("\tId:%s\n",info[i].ID);
+        printf("\tE-Mail:%s\n",info[i].e_mail);
+        printf("\tPhone Number:%s\n",info[i].phone_no);
+        printf("\n");
+    }
+    char c;
+    printf("Press 0 to clear screen And return main function: ");
+    fflush(stdin);
+    scanf("%c",&c);
+    if(c=='0')
+    {
+        system("CLS");
+    }
+    else
+    {
+        return;
+    }
+
+}
+int main()
+{
+    char ch;
+    while(1)
+    {
+        printf("\t\t\tEnter your choice:\n");
+        printf("\t\t\tPress 1 for Insert Student Info.\n");
+        printf("\t\t\tPress 2 for Display All Student Info.\n");
+        printf("\t\t\tPress 3 for Search.\n");
+        printf("\t\t\tPress 4 for Delete.\n");
+        printf("\t\t\tPress 5 for Modify Information.\n");
+        printf("\t\t\tPress c to clear screen.\n");
+        printf("\t\t\tPress 0 for exit.\n");
+        fflush(stdin);
+        scanf("%c",&ch);
+        switch(ch)
+        {
+        case '1':
+            if(l==size)
+            {
+                printf("STORAGE FULL\n");
+                break;
+            }
+            add();
+            break;
+        case '2':
+            if(l==0)
+            {
+                printf("The Rocord List is Empty!\n");
+                break;
+            }
+            display();
+            break;
+        case '3':
+            if(l==0)
+            {
+                printf("The Rocord List is Empty!\n");
+                break;
+            }
+            search();
+            break;
+        case '4':
+            if(l==0)
+            {
+                printf("The Rocord List is Empty!\n");
+                break;
+            }
+            delet();
+            break;
+        case '5':
+            if(l==0)
+            {
+                printf("The Rocord List is Empty!\n");
+                break;
+            }
+            modify();
+            break;
+        case 'c':
+            system("CLS");
+            break;
+        case '0':
+            exit(0);
+        default:
+            printf("Invalid Imput!. Please Try Again.\n");
+            break;
+        }
+
+
+    }
 }
