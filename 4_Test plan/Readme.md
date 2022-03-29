@@ -1,4 +1,5 @@
 # High Level Test Plan
+
 | Test ID | Description | Exp I/P | Exp O/P | Actual Out | Type Of Test|
 |----|--------|----|----|-----|------|
 | H_01 | Add a new user | New user name and password | New user suceeded | New user suceeded | Requirement based |
@@ -7,6 +8,7 @@
 | H_04 | Check reslts | School year and term information	| You can see results of user queries |	You can see results of user queries| Requirement based  |
 
 # Low Level Test Plan
+
  |Test ID | Description | Exp I/P | Exp O/P | Actual Out | Type Of Test|
 |----|--------|----|----|-----|------|
 | H_01 | Modify role | Changed new role name | Succcessfully completed | Successfully completed | Requirement based |
