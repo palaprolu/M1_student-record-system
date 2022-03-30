@@ -1,461 +1,549 @@
-//
-// Created by Debashish on 4/10/2017.
-//
-
 #include<stdio.h>
-#include<string.h>
+#include<conio.h>
 #include<stdlib.h>
-#include<math.h>
-#include <windows.h>
+#include<time.h>
+#include<windows.h>
 
-#define Student struct Stud
-
-void add(FILE * fp);
-void modify(FILE * fp);
-void display(FILE * fp);
-void Indivisual(FILE *fp);
-void password();
-FILE * del(FILE * fp);
-void printChar(char ch,int n);
-void title();
-FILE *tp;
-
-void gotoxy(int x,int y)
+typedef struct Node node;  // Create new name for struct Node---> node
+struct Node
 {
-	COORD CRD;
-    CRD.X = x;
-    CRD.Y = y;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),CRD);
-}
 
-struct pass
+    char first_name[50];
+    char last_name[50];
+    char student_id[30];
+    char gender[10];
+    char email[50];
+    char father_name[50];
+    char mother_name[50];
+    char date_of_birth[50];
+    node *next;
+
+} std,*head=NULL;
+
+
+void change_password();//to change password
+void display_student(); //to show student's details
+void add_new_student(); //To add student's info in list
+void remove_student(); //to delete student's info in list
+void modify_student_data(); //to change student's info in list
+void search_student(); //to search student's info in list
+void intro(); //Log in page
+void date_time(); //date and time
+void break_t(unsigned int t); //Loading...
+void print_title();//to show title
+void saved_data(); //to save data to linked list
+
+
+FILE *file,*f1;
+int f=0,m=0;  //f for Female && m for Male
+char rtrv[100],wrtn[100],match[100]; // password restore from file [rtrv]
+//password written to file [wrtn]
+//password match [match]
+
+
+void change_password()
 {
-	char pass[25];
-}pa;
+    int k=0;
+    print_title();
+    f1=fopen("password.txt","w");
+    printf("\n\t\t\t->Enter New Password: ");
+    scanf("%s",wrtn);
 
-struct Stud
-{
-    char name[100];
-    char dept[50];
-    int roll;
-    float sgpa[12];
-    float cgpa;
-};
-
-
-int main()
-{
-    int ch,id,k,i;
-    char c,add,pas[50];
-    SetConsoleTitle("Student Management System | DIU");
-    FILE * fp;
-    Student s;
-    int option;
-    char another;
-
-    if((fp=fopen("db.txt","rb+"))==NULL)
+    if(strcmp(rtrv,wrtn)==0)
     {
-        if((fp=fopen("db.txt","wb+"))==NULL)
+        printf("\n\t\t\tPassword Matched with Old Password.\n");
+        k=1;
+    }
+    fprintf(f1,"%s",wrtn);
+    if(k==0)
+    {
+        do
         {
-            printf("Can't create or open Database.");
-            return 0;
+            printf("\n\t\t\t->Confirm Password:");
+            scanf("%s",match);
+            if(strcmp(wrtn,match)!=0)
+                printf("\n\t\t\tPassword not match. Plz try again\n\n");
         }
+        while(strcmp(wrtn,match)!=0);
     }
-    system("color 9f");
-	gotoxy(42,8);
-	printf("LOGIN(If 1st login press ENTER)");
-	gotoxy(42,10);
-	printf("____________________________________");
-	gotoxy(42,11);
-	printf("|\tEnter password :             |");
-	gotoxy(42,12);
-	printf("|__________________________________|");
-	//printf("\n\t\t\t\t\t");
-	gotoxy(65,11);
-	while( k<10)
-	{
-	    pas[k]=getch();
-	    char s=pas[k];
-	    if(s==13)
-		 break;
-	    else printf("*");
-	    k++;
-	}
-	pas[k]='\0';
-	tp=fopen("F:/Password.txt","r+");
-    fgets(pa.pass,25,tp);
-    if(strcmp(pas,pa.pass)==0)
-	{
-		system("cls");
-		gotoxy(10,3);
-		printf("<<<< Loading Please Wait >>>>");
-		for(i=0; i<5; i++)
-        {
-            printf("\t(*_*)");
-            Sleep(500);
-        }
-        printf(" \n\n\n\n\n\t\t\t\t\t     *  *  *  *  *  *  *  *");
-		printf("\n\n\t\t\t\t\t     *                    *");
-		printf("\n\n\t\t\t\t\t     *       Welcome      *");
-		printf("\n\n\t\t\t\t\t     *                    *");
-		printf("\n\n\t\t\t\t\t     *  *  *  *  *  *  *  *");
-		printf("\n\n\n\n\n\t\t\t\t\tPress any key to continue...... ");
-		getch();
-
-    title();
-    printf("\n\n\t\t\t\tLab Final Spring 2017");
-    printf("\n\n\t\t\t\t     The A Team");
-    printf("\n\n\t\t\t  Daffodil International University\n\t\t\t");
-    printChar('=',38);
-    printf("\n\n\n\t\t\t       press any key to Enter");
-    getch();
-
-    while(1)
+    if(k==0)
     {
-        title();
-        printf("\n\t");
-        printChar('*',64);
+        printf("\n\t\t\tYour Password was changed successfully.\n\n");
+    }
+    printf("\n");
+    system("pause"); //Make the screen wait for a key press.
 
-        printf("\n\n\t\t\t\t1. Add Student");
-        printf("\n\n\t\t\t\t2. Modify Student");
-        printf("\n\n\t\t\t\t3. Show All Student");
-        printf("\n\n\t\t\t\t4. Individual View");
-        printf("\n\n\t\t\t\t5. Remove Student");
-        printf("\n\n\t\t\t\t6. Change Password");
-        printf("\n\n\t\t\t\t7. Logout\n\t");
-        printChar('*',64);
-        printf("\n\n\t\t\t\tEnter Your Option :--> ");
-        scanf("%d",&option);
-
-        switch(option)
-        {
-            case 1:
-                //add(fp);
-                break;
-            case 2:
-                modify(fp);
-                break;
-            case 3:
-                display(fp);
-                break;
-            case 4:
-                Indivisual(fp);
-                break;
-            case 5:
-                fp=del(fp);
-                break;
-            case 6:
-                    system("cls");
-				    system("color 5f");
-			        password();
-                break;
-            case 7:
-                return 1;
-                break;
-            default:
-                printf("\n\t\tNo Action Detected");
-                printf("\n\t\tPress Any Key\n\n\n");
-                getch();
-                system("pause");
-        }
-    }
-    }
-    else
-    {
-        printf("Wrong Password . Get Out");
-        getch();
-    }
-    return 1;
 
 }
 
 
-void password()
+void saved_data()
 {
-	char c;
-	printf("\nEnter new password :");
-	fflush(stdin);
-	gets(pa.pass);
-	printf("\nSave password (y/n) :");
-	fflush(stdin);
-	scanf("%c",&c);
-	if(c=='y'||c=='Y')
-	{
-		tp=fopen("F:/Password.txt","w+");
-	    fwrite(&pa,sizeof(pa),1,tp);
-	    fclose(tp);
-		printf("\n\tPassword Saved\n");
-	}
-	else
-	{
-		printf("Password not saved :\n");
-		printf("Press any key to continue >>>");
-		getch();
-	}
-}
-
-
-void printChar(char ch,int n)
-{
-    while(n--)
+    node *temp,*new_node;
+    f=0;
+    m=0;
+    head=NULL;
+    rewind(file); //move file position indicator to the beginning
+    while((fread(&std,sizeof(std),1,file))==1)
     {
-        putchar(ch);
+        temp=(node*)malloc(sizeof(node));
+        strcpy(temp->first_name,std.first_name);
+        strcpy(temp->last_name,std.last_name);
+        strcpy(temp->student_id,std.student_id);
+        strcpy(temp->gender,std.gender);
+        if(strcmp(temp->gender,"F")==0||strcmp(temp->gender,"f")==0)
+            f++;
+        if(strcmp(temp->gender,"M")==0||strcmp(temp->gender,"m")==0)
+            m++;
+        strcpy(temp->father_name,std.father_name);
+        strcpy(temp->mother_name,std.mother_name);
+        strcpy(temp->date_of_birth,std.date_of_birth);
+
+        temp->next=NULL;
+        if(head==NULL)
+        {
+            head=temp;
+            new_node=temp;
+        }
+        else
+        {
+            new_node->next=temp;
+            new_node=temp;
+        }
+
     }
 }
 
-void title()
+
+void print_title()
 {
     system("cls");
-    system("COLOR 03");
-    printf("\n\n\t");
-    printChar('=',19);
-    printf(" Student Management System ");
-    printChar('=',19);
+    printf("\n\n\n");
+    printf("\t\t\t\t\t\tSTUDENT MANAGEMENT SYSTEM\n");
+    printf("\t\t\t\t\t*-------------------------------------*\n");
+    printf("\n\n");
+}
+void search_student()
+{
+    print_title();
+    saved_data();
+
+    char flag='y';
+    do
+    {
+        node *c=head,*temp=NULL;
+        char id[100];
+        printf("\n\t\t\tEnter Student ID:");
+        scanf("%s",id);
+        printf("\n");
+        while(c!=NULL)
+        {
+            if(strcmp(c->student_id,id)==0)
+            {
+                temp=c;
+                break;
+            }
+            c=c->next;
+        }
+        if(temp==NULL)
+            printf("\t\tRecord Not found!!!\n\n");
+        else
+        {
+
+            printf("\n\t\tStudent\tName: %s %s\n",temp->first_name,temp->last_name);
+            printf("\n\t\tStudent\tID: %s\n",temp->student_id);
+            printf("\n\t\tFather\tName: %s\n",temp->father_name);
+            printf("\n\t\tMother\tName: %s\n",temp->mother_name);
+            printf("\n\t\tGender\t: %s\n",temp->gender);
+            printf("\n\t\tDate of Birth\t: %s\n\n\n",temp->date_of_birth);
+
+
+
+        }
+        getchar(); //For clearing the input buffer
+        printf("Do you want to search more (Y/N) :");
+        scanf("%c",&flag);
+
+    }
+    while(flag=='y'||flag=='Y');
+
     printf("\n");
+    system("pause"); //Make the screen wait for a key press.
+
+
+
 }
 
 
-//Insert at end
-
-void add(FILE * fp)
+void modify_student_data()
 {
-    title();
+    print_title();
+    int check=0;
+    char id[100];
+    printf("\n\t\tEnter roll Number to Modify:");
+    scanf("%s",id);
 
-    char another='y';
-    Student s;
-    int i;
-    float cgpa;
-
-    fseek(fp,0,SEEK_END);
-    while(another=='y'||another=='Y')
+    rewind(file); //move file position indicator to the beginning
+    while((fread(&std,sizeof(std),1,file)==1))
     {
-
-        printf("\n\n\t\tEnter Full Name of Student: ");
-        fflush(stdin);
-        fgets(s.name,100,stdin);
-        s.name[strlen(s.name)-1]='\0';
-
-        printf("\n\n\t\tEnter Depertment Name: ");
-        fflush(stdin);
-        fgets(s.dept,50,stdin);
-        s.dept[strlen(s.dept)-1]='\0';
-
-        printf("\n\n\t\tEnter Roll number: ");
-        scanf("%d",&s.roll);
-
-        printf("\n\n\tEnter SGPA for 12 semesters\n");
-        for(i=0,cgpa=0; i<12; i++)
+        if(strcmp(id,std.student_id)==0)
         {
-            scanf("%f",&s.sgpa[i]);
-            cgpa+=s.sgpa[i];
-
-        }
-
-        cgpa/=12.0;
-        s.cgpa=cgpa;
-
-        fwrite(&s,sizeof(s),1,fp);
-
-        printf("\n\n\t\tAdd another student?(Y/N)?");
-        fflush(stdin);
-        another=getchar();
-    }
-}
-
-
-FILE * del(FILE * fp)
-{
-    title();
-
-    Student s;
-    int flag=0,tempRoll,siz=sizeof(s);
-    FILE *ft;
-
-    if((ft=fopen("temp.txt","wb+"))==NULL)
-    {
-        printf("\n\n\t\t\t\\t!!! ERROR !!!\n\t\t");
-        system("pause");
-        return fp;
-    }
-
-    printf("\n\n\tEnter Roll number of Student to Delete the Record");
-    printf("\n\n\t\t\tRoll No. : ");
-    scanf("%d",&tempRoll);
-
-    rewind(fp);
-
-
-    while((fread(&s,siz,1,fp))==1)
-    {
-        if(s.roll==tempRoll)
-        {
-            flag=1;
-            printf("\n\tRecord Deleted for");
-            printf("\n\n\t\t%s\n\n\t\t%s\n\n\t\t%d\n\t",s.name,s.dept,s.roll);
-            continue;
-        }
-
-        fwrite(&s,siz,1,ft);
-    }
-
-
-    fclose(fp);
-    fclose(ft);
-
-    remove("db.txt");
-    rename("temp.txt","db.txt");
-
-    if((fp=fopen("db.txt","rb+"))==NULL)
-    {
-        printf("ERROR");
-        return  NULL;
-    }
-
-    if(flag==0) printf("\n\n\t\tNO STUDENT FOUND WITH THE INFORMATION\n\t");
-
-    printChar('-',65);
-    printf("\n\t");
-    system("pause");
-    return fp;
-}
-
-
-void modify(FILE * fp)
-{
-    title();
-
-    Student s;
-    int i,flag=0,tempRoll,siz=sizeof(s);
-    float cgpa;
-
-    printf("\n\n\tEnter Roll Number of Student to MODIFY the Record : ");
-    scanf("%d",&tempRoll);
-
-    rewind(fp);
-
-    while((fread(&s,siz,1,fp))==1)
-    {
-        if(s.roll==tempRoll)
-        {
-            flag=1;
+            check=1;
             break;
         }
     }
 
-    if(flag==1)
+    if(check==0)
+        printf("\n\t\tRecord not found!!!\n\n");
+    else
     {
-        fseek(fp,-siz,SEEK_CUR);
-        printf("\n\n\t\t\t\tRecord Found\n\t\t\t");
-        printChar('=',38);
-        printf("\n\n\t\t\tStudent Name: %s",s.name);
-        printf("\n\n\t\t\tStudent Roll: %d\n\t\t\t",s.roll);
-        printChar('=',38);
-        printf("\n\n\t\t\tEnter New Data for the student");
+        fseek(file,-sizeof(std),SEEK_CUR);// file position indicator to the current
+        printf("\n\t\tEnter new data :\n\n");
 
-        printf("\n\n\t\t\tEnter Full Name of Student: ");
-        fflush(stdin);
-        fgets(s.name,100,stdin);
-        s.name[strlen(s.name)-1]='\0';
+        printf("\t\t\t\tEnter First name:");
+        scanf("%s",std.first_name);
 
-        printf("\n\n\t\t\tEnter Department: ");
-        fflush(stdin);
-        fgets(s.dept,50,stdin);
-        s.dept[strlen(s.dept)-1]='\0';
+        printf("\n\t\t\t\tEnter Last name:");
+        scanf("%s",std.last_name);
 
-        printf("\n\n\t\t\tEnter Roll number: ");
-        scanf("%d",&s.roll);
+        printf("\n\t\t\t\tEnter Student ID:");
+        scanf("%s",std.student_id);
+
+        printf("\n\t\t\t\tIf Female write F or If Male write M:");
+        scanf("%s",std.gender);
+
+        getchar();
+
+        printf("\n\t\t\t\tEnter Father name:");
+        gets(std.father_name);
+
+        printf("\n\t\t\t\tEnter Mother name:");
+        gets(std.mother_name);
+
+        printf("\n\t\t\t\tEnter Date of Birth:");
+        scanf("%s",std.date_of_birth);
+
+        fwrite(&std,sizeof(std),1,file);
+
+    }
+    if(check==1)
+    {
+        printf("\n\t\tRecord was changed successfully.\n");
+    }
+    printf("\n");
+    system("pause"); //Make the screen wait for a key press.
 
 
-        printf("\n\n\t\tEnter SGPA for 12 semesters\n");
-        for(i=0,cgpa=0; i<12; i++)
+}
+void remove_student()
+{
+    print_title();
+    char id[100];
+    FILE *tmp;
+    if((tmp=fopen("tmp.txt","wb+"))==NULL)
+    {
+        printf("\n\t\tCan not be opened");
+
+    }
+    printf("\n\t\tEnter Student ID that to be delete:");
+    scanf("%s",id);
+    int check=0;
+    rewind(file); //move file position indicator to the beginning
+
+    while((fread(&std,sizeof(std),1,file))==1)
+    {
+        if(strcmp(std.student_id,id)==0)
         {
-            scanf("%f",&s.sgpa[i]);
-            cgpa+=s.sgpa[i];
-
+            check=1;
         }
-        cgpa=cgpa/8.0;
-
-
-        fwrite(&s,sizeof(s),1,fp);
-    }
-
-    else printf("\n\n\t!!!! ERROR !!!! RECORD NOT FOUND");
-
-    printf("\n\n\t");
-    system("pause");
-
-}
-
-void display(FILE * fp)
-{
-    title();
-    Student s;
-    int i,siz=sizeof(s);
-
-    rewind(fp);
-
-    while((fread(&s,siz,1,fp))==1)
-    {
-        printf("\n\t\tNAME : %s",s.name);
-        printf("\n\n\t\tDepertment : %s",s.dept);
-        printf("\n\n\t\tROLL : %d",s.roll);
-        printf("\n\n\tSGPA: ");
-
-        for(i=0; i<12; i++)
-            printf("| %.2f |",s.sgpa[i]);
-        printf("\n\n\t\tCGPA : %.2f\n\t",s.cgpa);
-        printChar('-',65);
-    }
-    printf("\n\n\n\t");
-    printChar('*',65);
-    printf("\n\n\t");
-    system("pause");
-}
-
-void Indivisual(FILE *fp)
-{
-    title();
-
-    int tempRoll,flag,siz,i;
-    Student s;
-    char another='y';
-
-    siz=sizeof(s);
-
-    while(another=='y'||another=='Y')
-    {
-        printf("\n\n\tEnter Roll Number: ");
-        scanf("%d",&tempRoll);
-
-        rewind(fp);
-
-        while((fread(&s,siz,1,fp))==1)
+        else
         {
-            if(s.roll==tempRoll)
+            fwrite(&std,sizeof(std),1,tmp);
+        }
+
+    }
+    fclose(file);
+    fclose(tmp);
+    remove("sectiong.txt"); //the file to delete
+    rename("tmp.txt","sectiong.txt"); //rename the file
+    if((file=fopen("sectiong.txt","rb+"))==NULL)
+    {
+        printf("Can not be opened.");
+
+    }
+    if(check==1)
+    {
+        printf("\n\t\tThe record has been deleted successfully.\n");
+    }
+    if(check==0)
+        printf("\n\t\t\tERROR!!Record Not Found..\n");
+
+    printf("\n");
+    system("pause"); //Make the screen wait for a key press.
+
+
+}
+void add_new_student()
+{
+
+    print_title();
+    char check='y';
+    int k=1;
+    while(check=='y'||check=='Y')
+    {
+        printf("\t\tStudent %d:\n",k);
+
+
+        printf("\t\t\t\tEnter First name:");
+        scanf("%s",std.first_name);
+
+
+
+        printf("\n\t\t\t\tEnter Last name:");
+        scanf("%s",std.last_name);
+
+        printf("\n\t\t\t\tEnter Student ID:");
+        scanf("%s",std.student_id);
+
+        printf("\n\t\t\t\tIf Female write F or If Male write M:");
+        scanf("%s",std.gender);
+
+        getchar();
+
+        printf("\n\t\t\t\tEnter Father name:");
+        gets(std.father_name);
+
+        printf("\n\t\t\t\tEnter Mother name:");
+        gets(std.mother_name);
+
+        printf("\n\t\t\t\tEnter Date of Birth:");
+        scanf("%s",std.date_of_birth);
+
+
+        fwrite(&std,sizeof(std),1,file);
+        printf("\n\t\t\t\tDo You Want to Add More Information (y/n)--> ");
+        getchar();
+        check=getchar();
+        printf("\n");
+        k++;
+    }
+
+}
+
+
+void display_student()
+{
+    print_title();
+    saved_data();
+    node *c=head;
+    if(head!=NULL)
+    {
+        printf("\t\t\t\t\tSTUDENT NAME:\t\tID:\n\n");
+
+    }
+    while(c!=NULL)
+    {
+        printf("\t\t\t\t\t%s %s\t\t%s\n",c->first_name,c->last_name,c->student_id);
+        c=c->next;
+    }
+
+    printf("\n\nTotal Female Student: %d && Total Male Student: %d.\n",f,m);
+    printf("\n");
+    system("pause"); //Make the screen wait for a key press.
+
+}
+void break_t(unsigned int t)
+{
+    clock_t tym=t+clock();
+    while(tym>clock());
+}
+
+void date_time()
+{
+    char tim[50];
+    char day[50];
+    time_t currenttime;
+    time(&currenttime);
+    struct tm *myt=localtime(&currenttime);
+    strftime(tim,sizeof(tim),"%x",myt);
+    strftime(day,sizeof(day),"%I:%M%p",myt);
+
+    printf("\t\tDate:%s\t\t\t\t\t\t\t\tTime:%s\n",tim,day);
+}
+
+void intro()
+{
+    while(1)
+    {
+        int k,p;
+        system("cls");//to make the screen clean
+        printf("\n\n");
+        //printf("************************************************************************************************************************\n\n");
+        //printf("\t\t\t\t\tDaffodil International University\n\n");
+        //printf("************************************************************************************************************************");
+        printf("\n\n\n");
+        date_time();
+        printf("\n\n\n\n");
+        printf("\t\t\t\t\t\tSTUDENT MANAGEMENT SYSTEM\n");
+        printf("\t\t\t\t\t*-------------------------------------*\n");
+        printf("\n\n");
+        if(k==1)
+        {
+            printf("\n\n");
+            printf("\t\t\t\t\t\tWrong password!! ,try again\n");
+        }
+        k=0;
+        if(p==1)
+        {
+            printf("\n");
+            printf("\t\t\t\t\t\tIncorrect Username!! ,try again\n");
+        }
+        p=0;
+        char username[100],password[100];
+        printf("\n\t\t\t\t\t\tUsername:");
+        scanf("%s",username);
+        getchar();
+        printf("\n");
+        printf("\t\t\t\t\t\tPassword:");
+        int l=0;
+
+
+        do
+        {
+            password[l]=getch();
+            if(password[l]!='\r');
             {
-                flag=1;
-                break;
+                printf("*");
             }
+            l++;
         }
+        while(password[l-1]!='\r');
+        password[l-1]='\0';
 
-        if(flag==1)
+        if(strcmp(username,"diu")==0&&strcmp(password,rtrv)==0)
         {
-            printf("\n\t\tNAME : %s",s.name);
-            printf("\n\n\t\tDepartment : %s",s.dept);
-            printf("\n\n\t\tROLL : %d",s.roll);
-            printf("\n\n\tSGPA: ");
+            system("cls");
+            printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+            printf("\t\t\t\t\tWelcome to student management system");
+            for(int i=0; i<10; i++)
+            {
+                break_t(130);
+                printf(".");
+            }
 
-            for(i=0; i<12; i++)
-                printf("| %.2f |",s.sgpa[i]);
-            printf("\n\n\t\tCGPA : %.2f\n\t",s.cgpa);
-            printChar('-',65);
+            break;
+        }
+        else
+        {
+            if(strcmp(password,rtrv)!=0)
+            {
+                k=1;
+            }
+            if(strcmp(username,"diu")!=0)
+            {
+                p=1;
+            }
+
+            //system("cls");
 
         }
-        else printf("\n\n\t\t!!!! ERROR RECORD NOT FOUND !!!!");
-
-
-        printf("\n\n\t\tShow another student information? (Y/N)?");
-        fflush(stdin);
-        another=getchar();
     }
+
+}
+
+
+int main()
+{
+
+    if((file=fopen("sectiong.txt","rb+"))==NULL)
+    {
+        if((file=fopen("sectiong.txt","wb+"))==NULL)
+        {
+            printf("The file can not be opened\n");
+        }
+    }
+
+
+    f1=fopen("password.txt","r");
+    fscanf(f1,"%s",&rtrv);
+
+    intro();
+
+    while(1)
+    {
+
+
+        int press;
+        printf("\n");
+        print_title();
+
+        printf("\t\t\t\t\t\t1. Add New Records\n\n");
+        printf("\t\t\t\t\t\t2. Display all Students Records\n\n");
+        printf("\t\t\t\t\t\t3. Delete Records\n\n");
+        printf("\t\t\t\t\t\t4. Search and View Records\n\n");
+        printf("\t\t\t\t\t\t5. Modify Records\n\n");
+        printf("\t\t\t\t\t\t6. Change Password\n\n");
+        printf("\t\t\t\t\t\t7. Exit\n\n");
+
+        int choice;
+        printf("\n\t\t\t\t\t\tEnter Option:--> ");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+        case 1:
+
+        {
+            add_new_student( );
+
+        }
+        break;
+        case 2:
+
+        {
+            display_student();
+
+        }
+        break;
+        case 3:
+
+        {
+            remove_student();
+        }
+        break;
+        case 4:
+
+        {
+            search_student();
+
+        }
+        break;
+        case 5:
+
+        {
+            modify_student_data();
+        }
+        break;
+        case 6:
+        {
+            change_password();
+        }
+        break;
+        case 7:
+
+        {
+            system("cls");
+            exit(0);
+
+        }
+        break;
+        default:
+        {
+            printf("Wrong Input.. END!!\n");
+
+        }
+        }
+    }
+
+    return 0;
+
 }
