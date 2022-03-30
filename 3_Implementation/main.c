@@ -1,169 +1,247 @@
+#include<stdio.h>
+#include<ctype.h>
+#include<fstream>
 #include<stdlib.h>
 #include<string.h>
-#include<stdio.h>
-struct Student
-{
-    int rollnumber;
-    char name[100];
-    char phone[100];
-    float percentage;
-    struct Student *next;
-    
-}* head;
-void insert(int rollnumber, char* name, char* phone, float percentage)
-{
-    
-    struct Student * student = (struct Student *) malloc(sizeof(struct Student));
-    student->rollnumber = rollnumber;
-    strcpy(student->name, name);
-    strcpy(student->phone, phone);
-    student->percentage = percentage;
-    student->next = NULL;
-    
-    if(head==NULL){
-        // if head is NULL
-        // set student as the new head
-        head = student;
-    }
-    else{
-        // if list is not empty
-        // insert student in beginning of head
-        student->next = head;
-        head = student;
-    }
-    
+#include<iostream>
+using namespace std;
+typedef struct ndoe{
+ char id[10];
+ char name[10];
+ char sex[3];
+ char num[10]; 
+ struct node *next;
+}student;
+struct Student{
+ student data;
+ struct Student *next;
+};
+/ ************** Create Student Information******************/ 
+Student * insert(Student * head){
+  Student * s,*r;
+  head=(Student *)malloc(sizeof(Student));
+ Pritf ("Please enter the number of students:");
+  int n;
+  scanf("%d",&n);
+  r=head;
+  Pritf (\ n) input information for each student in the form of  M or G mobile phone number).
+  for(int i=0;i<n;i++){
+  s=(Student *)malloc(sizeof(Student));
+  /*scanf("%s",s->data.id);
+  scanf("%s",s->data.name);
+  scanf("%s",s->data.sex);
+  scanf("%s",s->data.num);*/
+ scanf("%s%s%s%s",s->data.id,s->data.name,s->data.sex,s->data.num);
+  r->next=s;
+  r=s;
+ }
+ r->next=NULL;
+ Printf ("successful input \ n");
+  return head;
 }
-void search(int rollnumber)
-{
-    struct Student * temp = head;
-    while(temp!=NULL){
-        if(temp->rollnumber==rollnumber){
-            printf("Roll Number: %d\n", temp->rollnumber);
-            printf("Name: %s\n", temp->name);
-            printf("Phone: %s\n", temp->phone);
-            printf("Percentage: %0.4f\n", temp->percentage);
-            return;
-        }
-        temp = temp->next;
-    }
-    printf("Student with roll number %d is not found !!!\n", rollnumber);
+/ ************** Increase in Students**********************/
+void add(Student *head){
+ Student *s;
+ s=head->next;
+ while(s->next!=NULL)
+ s=s->next;
+ Student *ad=(Student *)malloc(sizeof(Student));
+ ad->next=NULL;
+ s->next=ad;
+ // printf ("Input new student information:\ n");
+ scanf("%s%s%s%s",ad->data.id,ad->data.name,ad->data.sex,ad->data.num);
+ Printf ("Add Success\ n");
+ return ;
 }
-void update(int rollnumber)
-{
-    
-    struct Student * temp = head;
-    while(temp!=NULL){
-        
-        if(temp->rollnumber==rollnumber){
-            printf("Record with roll number %d Found !!!\n", rollnumber);
-            printf("Enter new name: ");
-            scanf("%s", temp->name);
-            printf("Enter new phone number: ");
-            scanf("%s", temp->phone);
-            printf("Enter new percentage: ");
-            scanf("%f",&temp->percentage);
-            printf("Updation Successful!!!\n");
-            return;
-        }
-        temp = temp->next;
-        
-    }
-    printf("Student with roll number %d is not found !!!\n", rollnumber);
-    
+/ ******************* Modify Student Information**********************************************************************/ 
+void change(Student * head){
+ Pritf ("Input 1, search students according to their school number, and modify the information of students\\\\");
+ Pritf ("Input 2, search for students by name, and modify the information of students\\\\\\");
+ Student * s;
+ int n;
+ scanf("%d",&n);
+ switch(n){
+ case 1:{
+ Printf ("Please enter the student number:");
+ char number[10];
+ scanf("%s",number);
+  s=head->next;
+ while(s!=NULL){
+ if(strcmp(s->data.id,number)==0){
+  Printf ("Please enter the information to be modified:");
+  char phone[10];
+  scanf("%s",phone);
+  strcpy(s->data.num,phone);
+  Printf ("Successful modification\ n");
+  break;
+ }
+ s=s->next;
+ } 
+ break;
+ }
+ case 2:{
+ Printf ("Please enter your name:");
+ char nam[10];
+ scanf("%s",&nam);
+  s=head->next;
+ while(s!=NULL){
+ if(strcmp(s->data.name,nam)==0){
+  Printf ("Please enter the information to be modified:");
+ char phone[10];
+  scanf("%s",phone);
+  strcpy(s->data.num,phone);
+  Printf ("Successful modification\ n");
+  break;
+ }
+ s=s->next;
+ } 
+ break;
+ }
+ }
+ 
+ return ;
 }
-void Delete(int rollnumber)
-{
-    struct Student * temp1 = head;
-    struct Student * temp2 = head; 
-    while(temp1!=NULL){
-        
-        if(temp1->rollnumber==rollnumber){
-            
-            printf("Record with roll number %d Found !!!\n", rollnumber);
-            
-            if(temp1==temp2){
-                // this condition will run if
-                // the record that we need to delete is the first node
-                // of the linked list
-                head = head->next;
-                free(temp1);
-            }
-            else{
-                // temp1 is the node we need to delete
-                // temp2 is the node previous to temp1
-                temp2->next = temp1->next;
-                free(temp1); 
-            }
-            
-            printf("Record Successfully Deleted !!!\n");
-            return;
-            
-        }
-        temp2 = temp1;
-        temp1 = temp1->next;
-        
-    }
-    printf("Student with roll number %d is not found !!!\n", rollnumber);
-    
+/ ********************** Delete Student Information****************************************************/
+void del(Student * head){
+ Pritf ("Input 1, search the student according to the student number, and delete the student's information\\\\\\");
+ Pritf ("Enter 2, search for the student by name, and delete the student's information\\\\\\\\");
+ Student * s,*r;
+ int n;
+ scanf("%d",&n);
+ switch(n){
+ case 1:{
+ Printf ("Please enter the student number:");
+ char number[10];
+ scanf("%s",number);
+  s=head->next;
+  r=head;
+ while(s!=NULL){
+ if(strcmp(s->data.id,number)==0){
+  r->next=s->next;
+  free(s);
+  Printf ("Delete Successfully\ n");
+  break;
+ }
+ r=s;
+ s=s->next;
+ } 
+ break;
+ }
+ case 2:{
+ Printf ("Please enter your name:");
+ char nam[10];
+ scanf("%s",&nam);
+  s=head->next;
+  r=head;
+ while(s!=NULL){
+ if(strcmp(s->data.name,nam)==0){
+  r->next=s->next;
+  free(s);
+  Printf ("Delete Successfully\ n");
+  break;
+ }
+ r=s;
+ s=s->next;
+ } 
+ break;
+ }
+ }
+ return ;
 }
-void display()
-{
-    struct Student * temp = head;
-    while(temp!=NULL){
-        
-        printf("Roll Number: %d\n", temp->rollnumber);
-        printf("Name: %s\n", temp->name);
-        printf("Phone: %s\n", temp->phone);
-        printf("Percentage: %0.4f\n\n", temp->percentage);
-        temp = temp->next;
-        
-    }
+/ ******************** Query for Student Information****************************************************/
+void check(Student * head){
+ Pritf ("Input 1, search the student according to the student number, and display the student's information\\\\\\\\");
+ Pritf ("Input 2, search the student by name, and display the student's information\\\\\\\\\\\\\\
+ Student * s,r;
+ int n;
+ scanf("%d",&n);
+ switch(n){
+ case 1:{
+ Printf ("Please enter the student number:");
+ char number[10];
+ scanf("%s",number);
+  s=head->next;
+ while(s!=NULL){
+ if(strcmp(s->data.id,number)==0){
+  printf("%s %s %s %s\n",s->data.id,s->data.name,s->data.sex,s->data.num);
+  break;
+ }
+ s=s->next;
+ } 
+ break;
+ }
+ case 2:{
+ Printf ("Please enter your name:");
+ char nam[10];
+ scanf("%s",&nam);
+  s=head->next;
+ while(s!=NULL){
+ if(strcmp(s->data.name,nam)==0){
+  printf("%s %s %s %s\n",s->data.id,s->data.name,s->data.sex,s->data.num);
+  break;
+ }
+ s=s->next;
+ } 
+ break;
+ }
+ }
+ if(s==NULL)
+ Printf ("the student does not exist \ n");
+ return ;
 }
-int main()
-{
-    head = NULL;
-    int choice;
-    char name[100];
-    char phone[100];
-    int rollnumber;
-    float percentage;
-    printf("1 to insert student details\n2 to search for student details\n3 to delete student details\n4 to update student details\n5 to display all student details");
-    do
-    {
-        printf("\nEnter Choice: ");
-        scanf("%d", &choice);
-        switch (choice)
-        {
-            case 1:
-                printf("Enter roll number: ");
-                scanf("%d", &rollnumber);
-                printf("Enter name: ");
-                scanf("%s", name);
-                printf("Enter phone number: ");
-                scanf("%s", phone);
-                printf("Enter percentage: ");
-                scanf("%f", &percentage);
-                insert(rollnumber, name, phone, percentage);
-                break;
-            case 2:
-                printf("Enter roll number to search: ");
-                scanf("%d", &rollnumber);
-                search(rollnumber);
-                break;
-            case 3:
-                printf("Enter roll number to delete: ");
-                scanf("%d", &rollnumber);
-                Delete(rollnumber);
-                break;
-            case 4:
-                printf("Enter roll number to update: ");
-                scanf("%d", &rollnumber);
-                update(rollnumber);
-                break;
-            case 5:
-                display();
-                break;
-        }
-        
-    } while (choice != 0);
+ 
+int main(){
+ Student *head=NULL;
+ Student *a;
+ Printf ("*** Welcome to Student Management System *** n");
+ Printf ("***1: Enrollment information *** n");
+ Printf ("***2: Please modify student information ***\ n");
+ Printf ("***3: Please delete student information ***\ n");
+ Printf ("***4: Please inquire about student information ***\ n");
+ Printf ("***5: Please add new student information **\n");
+ Printf ("***6: Exit management system ***\n");
+ printf("*************************\n");
+ Printf ("Please enter the command:");
+ int n;
+ while(scanf("%d",&n)&&n!=6){
+ switch(n){
+ case 1:{
+ Pritf ("Enrollment Information:\ n");
+ head=insert(a);
+ break;
+ }
+ case 2:{
+ Pritf ("Please change student information:\ n");
+ change(head);
+ break;
+ }
+ case 3:{
+ Court < < "Please delete student information:""endl;
+ del(head);
+ break;
+ }
+ case 4:{
+ Cout < < "Please check the student information:""endl;
+ check(head); 
+ break;
+ }
+ case 5:{
+ Cout < < "Please add new student information:""endl;
+ add(head);
+ break;
+ } 
+ default :
+ break;
+ }
+ Printf ("Please continue to enter the command:"); 
+ }
+ Student *s,*r;
+ s=head->next;
+ while(s!=NULL){
+ r=s->next;
+ free(s);
+ s=r;
+ }
+ free(head);
+ return 0;
 }
