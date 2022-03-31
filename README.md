@@ -17,3 +17,6 @@
 
 ## CPP CHECK
 [![Build Linux](https://github.com/palaprolu/M1_student-record-system/actions/workflows/Linux.yml/badge.svg)](https://github.com/palaprolu/M1_student-record-system/actions/workflows/Linux.yml)
+
+## DYNAMIC CHECK
+[![Contribution Check-Git Inspec](https://github.com/palaprolu/M1_student-record-system/actions/workflows/Git%20inspector.yml/badge.svg)](https://github.com/palaprolu/M1_student-record-system/actions/workflows/Git%20inspector.yml)
