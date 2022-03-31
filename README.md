@@ -23,3 +23,6 @@
 
 ## STATIC CODE
 [![Build Linux](https://github.com/palaprolu/M1_student-record-system/actions/workflows/Linux.yml/badge.svg)](https://github.com/palaprolu/M1_student-record-system/actions/workflows/Linux.yml)
+
+## VALGRIND
+[![Build Linux](https://github.com/palaprolu/M1_student-record-system/actions/workflows/Linux.yml/badge.svg)](https://github.com/palaprolu/M1_student-record-system/actions/workflows/Linux.yml)
