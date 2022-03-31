@@ -10,3 +10,7 @@
 
 ## BUILD LINUX
 [![CI](https://github.com/palaprolu/M1_student-record-system/actions/workflows/CI.yml/badge.svg)](https://github.com/palaprolu/M1_student-record-system/actions/workflows/CI.yml)
+
+
+## GIT INSPECTOR
+[![CI](https://github.com/palaprolu/M1_student-record-system/actions/workflows/CI.yml/badge.svg)](https://github.com/palaprolu/M1_student-record-system/actions/workflows/CI.yml)
